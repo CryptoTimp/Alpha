@@ -1,0 +1,2248 @@
+<head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<!-- TABLE CSS -->
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
+    .GUI table {
+        /* border-collapse: collapse;
+    border-spacing: 0; */
+        width: 100%;
+        height: 200px;
+        table-layout: fixed;
+        transform: rotateX(0deg);
+    }
+    
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        table-layout: fixed;
+        transform: rotateX(0deg);
+    }
+    
+    th,
+    td {
+        padding: 0px 0px;
+        text-align: center;
+        font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
+        font-size: 11;
+        color: black;
+        table-layout: fixed;
+    }
+    
+    th {
+        background: #222;
+        ;
+        color: #fff;
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        z-index: 999;
+    }
+    
+    tr:first-child th:first-child {
+        border-top-left-radius: 1px;
+    }
+    
+    tr:first-child th:last-child {
+        border-top-right-radius: 1px;
+    }
+    
+    td {
+        border-right: 1px solid #c6c9cc;
+        border-bottom: 1px solid #c6c9cc;
+        /* cursor: pointer; */
+    }
+    
+    td:first-child {
+        border-left: 1px solid #c6c9cc;
+        /* cursor: pointer; */
+    }
+    
+    tr:last-child td:first-child {
+        border-bottom-left-radius: 6px;
+    }
+    
+    tr:last-child td:last-child {
+        border-bottom-right-radius: 6px;
+    }
+    
+    input {
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        font-size: 15;
+        width: 50%;
+        padding: 2px 2px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    
+    .Buy {
+        background: green no-repeat fixed center;
+        color: white;
+    }
+    
+    .Sell {
+        background: red no-repeat fixed center;
+        color: white;
+    }
+    
+    .allow-scroll {
+        position: relative;
+        height: 800px;
+        width: 100%;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        overflow-x: hidden;
+        scroll-snap-type: mandatory;
+        scroll-snap-align: y center;
+    }
+    
+     ::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .button {
+        border: none;
+        background: grey;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 4px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+        cursor: pointer;
+    }
+    
+    .button:hover {
+        color: white !important;
+        font-weight: 750 !important;
+        background: red;
+        transition: all 0.3s ease 0s;
+    }
+</style>
+
+<!-- LAYOUT -->
+<style>
+    #header {
+        width: 101%;
+        background-color: #545454;
+        height: 50px;
+        overflow: hidden;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        z-index: 999;
+    }
+    
+    #container {
+        width: 100%;
+        margin: auto;
+    }
+    
+    #first {
+        width: 20%;
+        float: left;
+        height: 330%;
+        background-color: #BBBBBB;
+        overflow: hidden;
+        position: fixed;
+    }
+    
+    #second {
+        width: 80%;
+        margin-left: 21%;
+        height: 1100px;
+        overflow: auto;
+    }
+    
+    #third {
+        width: 100px;
+        height: 1100px;
+        overflow: auto;
+    }
+    
+    #clear {
+        clear: both;
+    }
+</style>
+
+<!-- STATS -->
+<style>
+    .Stats td {
+        border: none;
+        color: white;
+    }
+</style>
+
+<!-- BUTTONS -->
+<style>
+    .buttbuy {
+        border: 1px outset blue;
+        background-color: blue;
+        text-shadow: 1.25px 1.25px black;
+        color: white;
+        height: 50px;
+        width: 50px;
+        cursor: pointer;
+    }
+    
+    .buttbuy:hover {
+        background-color: blue;
+        color: white;
+        border-radius: 6px;
+    }
+    
+    .buttsell {
+        border: 1px outset red;
+        background-color: red;
+        text-shadow: 1.25px 1.25px black;
+        color: white;
+        height: 50px;
+        width: 50px;
+        cursor: pointer;
+    }
+    
+    .buttsell:hover {
+        background-color: red;
+        color: white;
+        border-radius: 6px;
+    }
+    
+    .buttsize {
+        background-color: #A0A0A0;
+        text-shadow: 1.25px 1.25px black;
+        color: white;
+        height: 35px;
+        width: 35px;
+        cursor: pointer;
+    }
+    
+    .buttclip {
+        background-color: white;
+        text-shadow: 1.25px 1.25px grey;
+        color: black;
+        height: 35px;
+        width: 105px;
+        cursor: pointer;
+    }
+    
+    .buttclear {
+        background-color: black;
+        text-shadow: 1.25px 1.25px grey;
+        color: white;
+        height: 30px;
+        width: 100px;
+        cursor: pointer;
+    }
+    
+    .buttRender {
+        background-color: white;
+        /* text-shadow: 1.25px 1.25px grey; */
+        color: black;
+        margin-top: 4px;
+        margin-left: 2.5px;
+        height: 20px;
+        width: 30px;
+        cursor: pointer;
+        float: right;
+    }
+    
+    hr.solid {
+        border-top: 3px solid black;
+    }
+    
+    .Counter {
+        font-family: 'Open Sans', sans-serif;
+        font-size: small;
+    }
+</style>
+
+<style>
+    /* The container */
+    
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 27px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    /* Hide the browser's default checkbox */
+    
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+    /* Create a custom checkbox */
+    
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: grey;
+    }
+    /* On mouse-over, add a grey background color */
+    
+    .container:hover input~.checkmark {
+        background-color: #ccc;
+    }
+    /* When the checkbox is checked, add a blue background */
+    
+    .container input:checked~.checkmark {
+        background-color: #2196F3;
+    }
+    /* Create the checkmark/indicator (hidden when not checked) */
+    
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+    /* Show the checkmark when checked */
+    
+    .container input:checked~.checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
+
+<html>
+<div id="header">
+    <table class="Stats">
+        <td>Product</td>
+        <td style="color: #55A3DF;">BTCUSDT</td>
+        <td>Volume</td>
+        <td>
+            <div id="headerVolume"></div>
+        </td>
+        <td>Open</td>
+        <td>
+            <div id="headerOpen"></div>
+        </td>
+        <tr></tr>
+        <td>Last</td>
+        <td>
+            <div id="headerLastPrice"></div>
+        </td>
+        <td>High</td>
+        <td>
+            <div id="headerHigh"></div>
+        </td>
+        <tr></tr>
+        <td>Change</td>
+        <td>
+            <div id="headerPercentageChange"></div>
+        </td>
+        <td>Low</td>
+        <td>
+            <div id="headerLow"></div>
+        </td>
+        <tr></tr>
+    </table>
+</div>
+<div id="container">
+    <div id="first">
+        <style>
+            .formCSS {
+                font-size: 12;
+                width: 100%;
+                height: 20px;
+                align-items: center;
+                display: block;
+            }
+        </style>
+        <form>
+            <select class="formCSS" name="dropdown">
+                <option value="BTCUSDT" selected>BTCUSDT</option>
+                <option value="ETHUSDT">ETHUSDT</option>
+                <option value="LINKUSDT">LINKUSDT</option>
+            </select>
+        </form>
+
+        <CENTER>
+            <style>
+                /* Container holding the image and the text */
+                
+                .containerImage {
+                    position: relative;
+                    text-align: center;
+                    color: black;
+                    text-shadow: 1.25px 1.25px grey;
+                    font-family: 'Open Sans', sans-serif;
+                    font-weight: bold;
+                }
+                /* Centered text */
+                
+                .centered {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            </style>
+            <hr class="solid">
+
+            <div class="containerImage">
+                <img style="width: 50%;" src="sidebar-logo.png">
+                <div class="centered" id="timeLeft"></div>
+            </div>
+
+        </CENTER>
+        <table>
+            <center>
+
+                <script>
+                    function ScrollRiskLadder() {
+                        var my_element = document.getElementById("centerPrice");
+
+                        my_element.scrollIntoView({
+
+                            block: "center",
+                            inline: "nearest"
+                        });
+                    }
+
+                    var timeleft = 99;
+                    var imer = setInterval(function() {
+                        if (timeleft <= 0) {
+                            timeleft = 99
+
+                            //On scroll reset timer
+                            var animateFlag = true
+
+
+                            window.addEventListener("scroll", function() {
+                                if (this.pageYOffset > 0) {
+                                    if (animateFlag) {
+                                        timeleft = 99;
+                                        animateFlag = false;
+                                    }
+                                }
+                            })
+                            ScrollRiskLadder()
+                        }
+                        timeleft -= 1
+                            //console.log(timeleft)
+                    }, 1000);
+                </script>
+            </center>
+        </table>
+        <hr class="solid">
+        <center>
+            <input id="posSize" class="buttclip" type="button" value="" />
+
+        </center>
+        <hr class="solid">
+        <center>
+            <input class="buttclip" type="text" value="0.001" onkeydown="search(this)" />
+            <script>
+                typeClip = 0.001
+
+                function search(ele) {
+                    if (event.key === 'Enter') {
+                        console.log(`CHANGING CLIP TO ${ele.value}`)
+                        typeClip = (ele.value)
+                        Notiflix.Notify.Info(`Clipsize @ ${typeClip}`);
+                        const musicPath = path.join(__dirname, 'sound-1.mp3')
+                        sound.play(musicPath)
+                    }
+                }
+            </script>
+
+
+        </center>
+        <hr class="solid">
+        <table>
+            <td><input class="buttbuy" type="button" value="Buy" onclick="BinanceFBuy()" /></td>
+            <td><input class="buttsell" type="button" value="Sell" onclick="BinanceFSell()" /></td>
+        </table>
+        <center>
+            <input class="buttclear" type="button" onclick="CancelAllButton()" value="Cancel All" />
+        </center>
+        <hr class="solid">
+        <center>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>USDT</td>
+                        <td>
+                            <div id="balance" class="counter"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BNB</td>
+                        <td>
+                            <div id="bnb" class="counter"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>URPL</td>
+                        <td>
+                            <div id="urpl" class="counter"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>URWB</td>
+                        <td>
+                            <div id="urwb" class="counter"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </center>
+
+        <!-- <hr class="solid">
+    
+    <table>
+      <script>
+        function keypad1(){
+          keypad1 = 0.001
+          document.getElementById("keypad1").innerHTML = keypad1
+          typeClip = keypad1
+        }
+        function keypad2(){
+          keypad2 = 0.002
+          document.getElementById("keypad2").innerHTML = keypad2
+          typeClip = keypad2
+        }
+        function keypad3(){
+          keypad3 = 0.003
+          document.getElementById("keypad3").innerHTML = keypad3
+          typeClip = keypad3
+        }
+        function keypad4(){
+          keypad4 = 0.004
+          document.getElementById("keypad4").innerHTML = keypad4
+          typeClip = keypad4
+        }
+        function keypad5(){
+          keypad5 = 0.005
+          document.getElementById("keypad5").innerHTML = keypad5
+          typeClip = keypad5
+        }
+        function keypad6(){
+          keypad6 = 0.006
+          document.getElementById("keypad6").innerHTML = keypad6
+          typeClip = keypad6
+        }
+        function keypad7(){
+          keypad6 = 0.007
+          document.getElementById("keypad7").innerHTML = keypad7
+          typeClip = keypad7
+        }
+        function keypad8(){
+          keypad8 = 0.008
+          document.getElementById("keypad8").innerHTML = keypad8
+          typeClip = keypad8
+        }
+        function keypad9(){
+          keypad9 = 0.009
+          document.getElementById("keypad9").innerHTML = keypad9
+          typeClip = keypad9
+        }
+      </script>
+      <td><input class="buttsize" type="button" value="1" onclick="keypad1()"/><div id="keypad1"></div></td>
+      <td><input class="buttsize" type="button" value="2" onclick="keypad2()"/><div id="keypad2"></div></td>
+      <td><input class="buttsize" type="button" value="3" onclick="keypad3()"/><div id="keypad3"></div></td>
+      <tr></tr>
+      <td><input class="buttsize" type="button" value="4" onclick="keypad4()"/><div id="keypad4"></div></td>
+      <td><input class="buttsize" type="button" value="5" onclick="keypad5()"/><div id="keypad5"></div></td>
+      <td><input class="buttsize" type="button" value="6" onclick="keypad6()"/><div id="keypad6"></div></td>
+      <tr></tr>
+      <td><input class="buttsize" type="button" value="7" onclick="keypad7()"/><div id="keypad7"></div></td>
+      <td><input class="buttsize" type="button" value="8" onclick="keypad8()"/><div id="keypad8"></div></td>
+      <td><input class="buttsize" type="button" value="9" onclick="keypad9()"/><div id="keypad9"></div></td>
+      <tr></tr>
+      <td><input class="buttclear" type="button" value="Clear" onclick="clearKeypad()"/></td>
+    </table> -->
+        <hr class="solid">
+
+
+        <!-- <input class="buttclear" type="button" value="Cancel Asks"/><br>
+    <input class="buttclear" type="button" value="Cancel Bids"/><br> -->
+        <script>
+            function clearKeypad() {
+                typeClip = 0
+                document.getElementById("keypad1").innerHTML = ""
+                document.getElementById("keypad2").innerHTML = ""
+                document.getElementById("keypad3").innerHTML = ""
+                document.getElementById("keypad4").innerHTML = ""
+                document.getElementById("keypad5").innerHTML = ""
+                document.getElementById("keypad6").innerHTML = ""
+                document.getElementById("keypad7").innerHTML = ""
+                document.getElementById("keypad8").innerHTML = ""
+                document.getElementById("keypad9").innerHTML = ""
+            }
+        </script>
+        <script>
+            function consolidationChange(num) {
+                consolidation = num
+            }
+            var consolidation = 1
+
+            function popup(val) {
+                console.log('val: ' + val);
+                if (val === 'consolidation1') {
+                    consolidationChange(1)
+                } else if (val === 'consolidation2') {
+                    consolidationChange(2)
+                } else if (val === 'consolidation3') {
+                    consolidationChange(3)
+                } else if (val === 'consolidation4') {
+                    consolidationChange(4)
+                } else if (val === 'consolidation5') {
+                    consolidationChange(5)
+                } else if (val === 'consolidation6') {
+                    consolidationChange(6)
+                } else if (val === 'consolidation7') {
+                    consolidationChange(7)
+                } else if (val === 'consolidation8') {
+                    consolidationChange(8)
+                } else if (val === 'consolidation9') {
+                    consolidationChange(9)
+                } else if (val === 'consolidation10') {
+                    consolidationChange(10)
+                }
+                console.log("!!!!!")
+            }
+        </script>
+
+        <select class="formCSS" name="dropdown" onchange="popup(this.value)">
+            <option value="consolidation1" selected>1 - 0.5</option>
+            <option value="consolidation2">2 - 1</option>
+            <option value="consolidation3">3 - 1.5</option>
+            <option value="consolidation4">4 - 2</option>
+            <option value="consolidation5">5 - 2.5</option>
+            <option value="consolidation6">6 - 3</option>
+            <option value="consolidation7">7 - 3.5</option>
+            <option value="consolidation8">8 - 4</option>
+            <option value="consolidation9">9 - 4.5</option>
+            <option value="consolidation10">10 - 5</option>
+        </select>
+        </form>
+        <hr class="solid">
+        <table>
+            <td>
+                Render(F1) <input class="buttRender" type="text" value="25" onkeydown="search2(this)" />
+            </td>
+            <tr></tr>
+            <td>
+                Size(F2) <input class="buttRender" type="text" value="50" onkeydown="search1(this)" />
+            </td>
+            <tr></tr>
+            <td>
+                Refresh(F3) <input class="buttRender" type="text" value="10" onkeydown="search3(this)" />
+            </td>
+        </table>
+        <script>
+            function search2(ele) {
+                if (event.key === 'F1') {
+                    console.log(`CHANGING RENDER THRESH TO ${ele.value}`)
+                    renderDistance = (ele.value)
+                    Notiflix.Notify.Info(`Rendering to +-${renderDistance}`);
+                    const musicPath = path.join(__dirname, 'sound-1.mp3')
+                    sound.play(musicPath)
+                }
+            }
+
+            sizeThreshold = 50
+
+            function search1(ele) {
+                if (event.key === 'F2') {
+                    console.log(`CHANGING SIZE THRESH TO ${ele.value}`)
+                    sizeThreshold = (ele.value)
+                    Notiflix.Notify.Info(`Threshold @ ${sizeThreshold}`);
+                    const musicPath = path.join(__dirname, 'sound-1.mp3')
+                    sound.play(musicPath)
+                }
+            }
+
+            distance = 10000
+
+            function search3(ele) {
+                if (event.key === 'F3') {
+                    console.log(`CHANGING DISTANCE THRESH TO ${(ele.value) * 1000}`)
+                    distance = (ele.value) * 1000
+                    Notiflix.Notify.Info(`Threshold @ ${distance / 1000}`);
+                    const musicPath = path.join(__dirname, 'sound-1.mp3')
+                    sound.play(musicPath)
+                }
+            }
+        </script>
+        <!-- <center>
+      <div class="counter">Connect</div>
+      <input class="buttclip" type="text" value="API KEY" onkeydown="searchkey(this)"/>
+      <input class="buttclip" type="text" value="API SECRET" onkeydown="searchsecret(this)"/>
+      <script>
+        
+        function searchkey(ele) {
+        if(event.key === 'Enter') {
+            console.log(`CHANGING KEY TO ${ele.value}`)  
+            APIKEY = (ele.value)      
+        }
+        }
+        function searchsecret(ele) {
+        if(event.key === 'Enter') {
+            console.log(`CHANGING SECRET TO ${ele.value}`)  
+            APISECRET = (ele.value)      
+        }
+        }
+      </script>
+    </center> -->
+        <!-- <hr class="solid"> -->
+        <!-- <label class="container">One
+      <input type="checkbox" checked="checked">
+    <span class="checkmark"></span>
+    </label> -->
+    </div>
+    <div id="second">
+        <div id="GUI"></div>
+    </div>
+    <div id="third">
+        <div id="chart"></div>
+    </div>
+    <div id="clear"></div>
+</div>
+
+</html>
+
+<!-- GUI CSS -->
+<style>
+    /* HeaderCSS */
+    
+    .headerClass {
+        column-span: 1;
+    }
+    /* BestBidCols */
+    
+    .bestBidCol2 {
+        background-color: #0F969E;
+        border-top: 3px solid black;
+        color: white;
+        cursor: copy;
+    }
+    
+    .bestBidCol3 {
+        background-color: #CCCCCC;
+        border-top: 3px solid black;
+    }
+    
+    .bestBidCol4 {
+        background-color: #AC2E27;
+        border-top: 3px solid black;
+    }
+    /* BestAskCols */
+    
+    .bestAskCol2 {
+        background-color: #0F969E;
+        border-top: 3px solid black;
+        color: white;
+        cursor: copy;
+    }
+    
+    .bestAskCol3 {
+        background-color: #CCCCCC;
+        border-top: 3px solid black;
+    }
+    
+    .bestAskCol4 {
+        background-color: #AC2E27;
+        border-top: 3px solid black;
+    }
+    /* BestNoBidAskCols */
+    
+    .bestNBACol2 {
+        background-color: #077AB4;
+        border-top: 3px solid black;
+    }
+    
+    .bestNBACol3 {
+        background-color: #CCCCCC;
+        border-top: 3px solid black;
+    }
+    
+    .bestNBACol4 {
+        background-color: #AC2E27;
+        border-top: 3px solid black;
+    }
+    /* BidCols */
+    
+    .bidCol2 {
+        background-color: #0F969E;
+        color: white;
+        cursor: copy;
+    }
+    
+    .bidCol3 {
+        background-color: #CCCCCC;
+    }
+    
+    .bidCol4 {
+        background-color: #AC2E27;
+    }
+    
+    .bestBidCol5 {
+        background-color: #3BBA9F;
+        color: black;
+        text-align: right;
+    }
+    /* AskCols */
+    
+    .askCol2 {
+        background-color: #077AB4;
+    }
+    
+    .askCol3 {
+        background-color: #CCCCCC;
+    }
+    
+    .askCol4 {
+        background-color: #D23830;
+        color: white;
+        cursor: copy;
+    }
+    
+    .askCol5 {
+        background-color: #3BBA9F;
+        color: black;
+        text-align: right;
+    }
+    /* No Bid/Ask */
+    
+    .NBACol2 {
+        background-color: #077AB4;
+    }
+    
+    .NBACol3 {
+        background-color: #CCCCCC;
+    }
+    
+    .NBACol4 {
+        background-color: #AC2E27;
+    }
+</style>
+
+
+
+<script>
+    const sound = require('sound-play')
+    const path = require('path')
+
+
+    var limits = {}
+
+    var ping
+
+    const WebSocket = require('ws');
+    const Notiflix = require('notiflix')
+        //Require Package
+    var Client = require('node-rest-client').Client;
+    var client = new Client();
+
+    var orderbook = {
+        bids: {},
+        asks: {}
+    }
+    var updates = 0
+    var lastUpdateId
+
+    class SocketClient {
+        constructor(path, baseUrl) {
+            this.baseUrl = baseUrl || 'wss://stream.binance.com/';
+            this._path = path;
+            this._createSocket();
+            this._handlers = new Map();
+        }
+
+        _createSocket() {
+            console.log(`${this.baseUrl}${this._path}`);
+            this._ws = new WebSocket(`${this.baseUrl}${this._path}`);
+
+            this._ws.onopen = () => {
+                console.log('Binance ws connected');
+            };
+
+            this._ws.on('pong', () => {
+                // console.log('receieved pong from server');
+            });
+            this._ws.on('ping', () => {
+                //console.log('==========receieved ping from server');
+                this._ws.pong();
+            });
+
+            this._ws.onclose = () => {
+                console.log('ws closed');
+            };
+
+            this._ws.onerror = (err) => {
+                console.log('ws error', err);
+            };
+
+            this._ws.onmessage = (msg) => {
+                try {
+                    const message = JSON.parse(msg.data);
+                    //console.log(message)
+                    //check for orderbook, if empty retrieve snapshot
+                    if (Object.keys(orderbook.bids).length == 0) {
+                        // @ts-ignore
+                        client.get('https://fapi.binance.com/fapi/v1/depth?symbol=BTCUSDT&limit=100',
+                            function(data) {
+
+                                for (var i in data.bids) {
+                                    var price = String(data.bids[i][0])
+                                    var qty = Number(data.bids[i][1])
+                                    orderbook.bids[price] = qty
+                                }
+                                for (var j in data.asks) {
+                                    var price = String(data.asks[j][0])
+                                    var qty = Number(data.asks[j][1])
+                                    orderbook.asks[price] = qty
+                                }
+                                orderbook.lastUpdateId = data.lastUpdateId
+                                console.log(data)
+                            })
+                    }
+
+                    //get lastUpdateId
+                    else {
+                        //console.log(orderbook)
+                        lastUpdateId = Number(orderbook.lastUpdateId)
+                            //console.log(message.U, message.u, lastUpdateId)
+                            //console.log(message.u)
+                        if (updates == 0) {
+                            if (message.U <= lastUpdateId && message.u >= lastUpdateId) {
+                                updates++
+                                //console.log('process this update')
+                                orderbook.lastUpdateId = message.u
+                                processUpdates(message)
+
+                            } else {
+                                console.log('discard this update', (message.U <= lastUpdateId), (message.u >=
+                                    lastUpdateId))
+                                orderbook.lastUpdateId = message.u
+                            }
+                        } else if (message.pu == lastUpdateId) {
+                            //console.log('process this update')
+                            orderbook.lastUpdateId = message.u
+                            processUpdates(message)
+                        } else {
+                            console.log('Out of sync, abort')
+                            orderbook.lastUpdateId = message.u
+                        }
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+
+            this.heartBeat();
+        }
+
+        heartBeat() {
+            setInterval(() => {
+                if (this._ws.readyState === WebSocket.OPEN) {
+                    this._ws.ping();
+                    //console.log("ping server");
+                }
+            }, 60000);
+        }
+
+        setHandler(method, callback) {
+            if (!this._handlers.has(method)) {
+                this._handlers.set(method, []);
+            }
+            this._handlers.get(method).push(callback);
+        }
+    }
+
+    async function processUpdates(data) {
+        for (var update in data['b']) {
+            manageOrderbook('bids', data['b'][update])
+        }
+        for (var update in data['a']) {
+            manageOrderbook('asks', data['a'][update])
+        }
+        updateTable(orderbook)
+
+    }
+
+    async function manageOrderbook(side, update) {
+        var price = String(update[0])
+        var qty = Number(update[1])
+            //console.log(price, qty)
+        if (qty == 0) {
+            delete orderbook[side][price]
+        } else {
+            orderbook[side][price] = qty
+        }
+    }
+
+    //Mapping
+    var centrePrice = 0
+    var renderDistance = 25
+
+    function truncateObject(obj, num) {
+        var newObj = {}
+        var log = Object.entries(obj)
+        for (var j in log.slice(0, num)) {
+            newObj[log[j][0]] = log[j][1]
+        }
+        return newObj
+    }
+
+    function buildMap(obj) {
+        let map = new Map();
+        Object.keys(obj).forEach(key => {
+            map.set(key, obj[key]);
+        });
+        return map;
+    }
+
+    function truncateBidMap(map, num) {
+        var arrayTmp = Array.from(map).reverse().slice(0, num)
+        var newMap = new Map(arrayTmp)
+        return newMap
+    }
+
+    function truncateAskMap(map, num) {
+        var arrayTmp = Array.from(map).slice(0, num)
+        var newMap = new Map(arrayTmp)
+        return newMap
+    }
+
+    async function updateTable(orderbook) {
+        // FORMAT HTML TABLE
+        // CONSOLIDATE PRICES
+        var consolidatedBids = {}
+        var consolidatedAsks = {}
+
+        for (var j in orderbook.bids) {
+            price = Number(j)
+            consolidatedPrice = consolidate(price)
+            qty = Number(orderbook.bids[j])
+                //console.log(price, qty)
+            if (consolidatedPrice in consolidatedBids) {
+                consolidatedBids[consolidatedPrice] += qty
+            } else {
+                consolidatedBids[consolidatedPrice] = qty
+            }
+        }
+        for (var j in orderbook.asks) {
+            price = Number(j)
+            consolidatedPrice = consolidate(price)
+            qty = Number(orderbook.asks[j])
+
+            if (consolidatedPrice in consolidatedAsks) {
+                consolidatedAsks[consolidatedPrice] += qty
+            } else {
+                consolidatedAsks[consolidatedPrice] = qty
+            }
+        }
+
+        const mapbid = buildMap(consolidatedBids)
+        var bidMap = truncateBidMap(mapbid, renderDistance)
+
+        const askbid = buildMap(consolidatedAsks)
+        var askMap = truncateAskMap(askbid, renderDistance)
+
+
+
+        let html = `<table>`
+        html +=
+            `<tr><th colspan="1">DOM</th><th colspan="1">Orders</th><th colspan="1">Bids</th><th colspan="1">Price</th><th colspan="1">Asks</th><th colspan="1">T: ${numberTrades}</th></tr>`
+        for (var i = centrePrice + 100; i > centrePrice - 100; i -= consolidation) {
+            if (consolidate(lastPrice.price) == i) {
+                var directionColour = lastPrice.direction ? "#D23830" : "#0F969E"
+                if (i in consolidatedBids) {
+                    // BEST BID
+                    html += `<tr>
+                            <td>
+                            <div class="meterBids">
+                            <span style="width: ${consolidatedBids[i]}%"></span>
+                            </div>
+                            </td>`
+
+                    if (Object.keys(limits).includes(String(i))) {
+                        html +=
+                            `<td onclick="BinanceCancelOrder(${i})" style="background-color:blue; color:white;">${limits[i].size}</td>`
+                    } else {
+                        html += `<td onclick="BinanceCancelOrder(${i})" style="background-color:white;"></td>`
+                    }
+
+                    html +=
+                        `<td class=bestBidCol2 onclick="BinanceFBuy(${i})">${bidMap.get(String(i)).toFixed(3)}</td>`
+
+                    if (BinanceEntryPrice === i) {
+                        html += `<td style="background-color: blue; color: white;">${i + " " + PNLP1}</td>`
+                    } else {
+                        html += `<td class=bestBidCol3>${i}</td>`
+                    }
+
+                    html += `<td class=bestBidCol4 onclick="BinanceFSell(${i})"></td>`
+                    html +=
+                        `<td id="centerPrice" style="background-color:${directionColour}; color:white;">${lastPrice.qty}</td>`
+
+                } else if (i in consolidatedAsks) {
+                    html += `<tr>
+                <td>
+                <div class="meterAsks">
+                  <span style="width: ${consolidatedAsks[i]}%"></span>
+                </div>
+                </td>`
+                    if (Object.keys(limits).includes(String(i))) {
+                        html +=
+                            `<td onclick="BinanceCancelOrder(${i})" style="background-color:red; color:white;">${limits[i].size}</td>`
+                    } else {
+                        html += `<td onclick="BinanceCancelOrder(${i})" style="background-color:white;"></td>`
+                    }
+
+                    html += `<td class=bestAskCol2 onclick="BinanceFBuy(${i})"></td>`
+                    if (BinanceEntryPrice === i) {
+                        html += `<td style="background-color: blue; color: white;">${i + " " + PNLP1}</td>`
+                    } else {
+                        html += `<td class=bestAskCol3>${i}</td>`
+                    }
+                    html +=
+                        `<td class=askCol4 onclick="BinanceFSell(${i})">${askMap.get(String(i)).toFixed(3)}</td>`
+                    html +=
+                        `<td id="centerPrice" style="background-color:${directionColour}; color:white;">${lastPrice.qty}</td>`
+                } else {
+                    // No bids/asks
+                    html += `<tr>
+                <td></td>
+                <td></td>
+                <td class=bestNBACol2></td>
+                <td class=bestNBACol3">${i}</td>
+                <td class=bestNBACol4></td>
+                <td></td>
+                </tr>`
+                }
+            } else {
+                if (i in consolidatedBids && volumeProfileObject && bidMap.has(String(i))) {
+                    // BIDS
+                    //console.log(i)
+                    html += `<tr>
+                <td>
+                <div class="meterBids">
+                  <span style="width: ${consolidatedBids[i]}%"></span>
+                </div>
+                </td>`
+                    if (Object.keys(limits).includes(String(i))) {
+                        html +=
+                            `<td onclick="BinanceCancelOrder(${i})" style="background-color:blue; color:white;">${limits[i].size}</td>`
+                    } else {
+                        html += `<td onclick="BinanceCancelOrder(${i})" style="background-color:white;"></td>`
+                    }
+
+
+                    if (bidMap.get(String(i)).toFixed(3) > sizeThreshold) {
+                        html +=
+                            `<td style="background-color:gold;" onclick="BinanceFBuy(${i})">${bidMap.get(String(i)).toFixed(3)}</td>`
+
+
+                    } else {
+                        html +=
+                            `<td class=bidCol2 onclick="BinanceFBuy(${i})">${bidMap.get(String(i)).toFixed(3)}</td>`
+                    }
+
+
+                    if (parseInt((candleData.low / consolidation) * consolidation) === i) {
+                        html +=
+                            `<td style="background-color: purple; color: white; outline: 2px dashed blue;">${i}(L)</td>`
+                    } else if (BinanceEntryPrice === i && Amount > 0) {
+                        html += `<td style="background-color: blue; color: white;">${i + " " + PNLP1}</td>`
+                    } else if (BinanceEntryPrice === i && Amount < 0) {
+                        html += `<td style="background-color: red; color: white;">${i + " " + PNLP1}</td>`
+                    } else {
+                        html += `<td class=bidCol3>${i}</td>`
+                    }
+
+                    html += `<td class=bidCol4 onclick="BinanceFSell(${i})"></td>
+                <td>                
+                <div class="meterAccBids">`
+                    if (volumeProfileObject[i] > 0) {
+                        html += `<span class=bestBidCol5 style="width: ${volumeProfileObject[i]}%;"></span>`
+                    } else {
+                        `<span style="width: 0%"></span>`
+                    }
+                    html += `</div>
+                      </td>
+                      </tr>`
+
+                } else if (i in consolidatedAsks && volumeProfileObject && askMap.has(String(i))) {
+                    // ASKS
+
+                    html += `<tr>
+                <td>
+                <div class="meterAsks">
+                  <span style="width: ${consolidatedAsks[i]}%"></span>
+                </div>
+                </td>`
+
+
+                    if (Object.keys(limits).includes(String(i))) {
+                        html +=
+                            `<td onclick="BinanceCancelOrder(${i})" style="background-color:red; color:white;">${limits[i].size}</td>`
+                    } else {
+                        html += `<td onclick="BinanceCancelOrder(${i})" style="background-color:white;"></td>`
+                    }
+
+                    html += `<td class=askCol2 onclick="BinanceFBuy(${i})"></td>`
+
+                    if (parseInt((candleData.high / consolidation) * consolidation) === i) {
+                        html +=
+                            `<td style="background-color: purple; color: white; outline: 2px dashed blue;">${i}(H)</td>`
+                    } else if (BinanceEntryPrice === i && Amount > 0) {
+                        html += `<td style="background-color: blue; color: white;">${i + " " + PNLP1}</td>`
+                    } else if (BinanceEntryPrice === i && Amount < 0) {
+                        html += `<td style="background-color: red; color: white;">${i + " " + PNLP1}</td>`
+                    } else {
+                        html += `<td class=bidCol3>${i}</td>`
+                    }
+
+                    if (askMap.get(String(i)).toFixed(3) > sizeThreshold) {
+                        html +=
+                            `<td style="background-color:gold;" onclick="BinanceFSell(${i})">${askMap.get(String(i)).toFixed(3)}</td>`
+                    } else {
+                        html +=
+                            `<td class=askCol4 onclick="BinanceFSell(${i})">${askMap.get(String(i)).toFixed(3)}</td>`
+                    }
+                    html += `<td><div class="meterAccBids">`
+                    if (volumeProfileObject[i] > 0) {
+                        html += `<span class=askCol5 style="width: ${volumeProfileObject[i]}%;"></span>`
+                    } else {
+                        `<span style="width: 0%"></span>`
+                    }
+                    html += `</div>
+                      </td>
+                      </tr>`
+
+                } else {
+                    // No bids/asks
+                    html += `<tr>
+                <td></td>`
+
+
+                    if (Object.keys(limits).includes(String(i))) {
+                        html +=
+                            `<td onclick="BinanceCancelOrder(${i})" style="background-color:${(limits[i].direction == "BUY") ? "blue" : "red"}; color:white;">${limits[i].size}</td>` //MAYBE WORKS
+                    } else {
+                        html += `<td onclick="BinanceCancelOrder(${i})" style="background-color:white;"></td>`
+                    }
+
+                    html += `<td class=askCol2 onclick="BinanceFBuy(${i})"></td>`
+                    if (parseInt(candleData.high / consolidation) * consolidation === i) {
+                        html +=
+                            `<td style="background-color: purple; color: white; outline: 2px dashed blue;">${i}(H)</td>`
+                    } else if (parseInt(candleData.low / consolidation) * consolidation === i) {
+                        html +=
+                            `<td style="background-color: purple; color: white; outline: 2px dashed blue;">${i}(L)</td>`
+                    } else if (BinanceEntryPrice === i && Amount > 0) {
+                        html += `<td style="background-color: blue; color: white;">${i + " " + PNLP1}</td>`
+                    } else if (BinanceEntryPrice === i && Amount < 0) {
+                        html += `<td style="background-color: red; color: white;">${i + " " + PNLP1}</td>`
+                    } else {
+                        html += `<td class=bidCol3>${i}</td>`
+                    }
+
+                    html += `<td class=NBACol4 onclick="BinanceFSell(${i})"></td>
+                <td></td>
+                </tr>`
+                }
+            }
+        }
+        html += '</table>'
+            //console.log(html)
+        document.getElementById("GUI").innerHTML = html;
+        // document.getElementById("headerAccBids").innerHTML = sum(consolidatedBids).toFixed(0);
+        // document.getElementById("headerAccAsks").innerHTML = sum(consolidatedAsks).toFixed(0);
+
+        // ping = Number(Date.now())-Number(candleData.time)
+        // //console.log(ping)
+        // document.getElementById("ping").innerHTML = ping+"ms";
+    }
+
+    // function sum(obj) {
+    //     var sum = 0;
+    //     for (var el in obj) {
+    //       if (obj.hasOwnProperty(el)) {
+    //         sum += parseFloat(obj[el]);
+    //       }
+    //     }
+    //     return sum;
+    //   }
+
+    function sendStats() {
+        //SEND HEADER STATS
+        document.getElementById("headerLastPrice").innerHTML = lastPrice.price;
+        document.getElementById("headerOpen").innerHTML = candleData.open;
+        document.getElementById("headerHigh").innerHTML = candleData.high;
+        document.getElementById("headerLow").innerHTML = candleData.low;
+        document.getElementById("headerVolume").innerHTML = candleData.vol;
+        document.getElementById("timeLeft").innerHTML = timeleft;
+
+        if (percentageChange > 0) {
+            document.getElementById("headerPercentageChange").innerHTML = percentageChange + "% " + pointChange;
+            document.getElementById("headerPercentageChange").style.color = "limegreen"
+        } else {
+            document.getElementById("headerPercentageChange").innerHTML = percentageChange + "% " + pointChange;
+            document.getElementById("headerPercentageChange").style.color = "#D23830"
+        }
+
+        if (Amount < 0) {
+            document.getElementById("posSize").style.color = "red"
+        } else if (Amount > 0) {
+            document.getElementById("posSize").style.color = "blue"
+        } else if (Amount === 0.000) {
+            document.getElementById("posSize").style.color = "black"
+        }
+        document.getElementById('posSize').value = Amount;
+        document.getElementById('balance').innerHTML = Number(wallet).toFixed(2);
+        document.getElementById('bnb').innerHTML = Number(bnb).toFixed(2);
+        document.getElementById('urpl').innerHTML = Number(urpl).toFixed(2);
+        document.getElementById('urwb').innerHTML = Number(wallet + urpl).toFixed(2);
+    }
+    setInterval(sendStats, 500)
+
+    function consolidate(price) {
+        return parseInt(price / consolidation) * consolidation
+    }
+
+    const Binance = require('node-binance-api');
+    const binance = new Binance().options({
+        APIKEY: `2X6NwCa2uto2YSX0WSCKX1Xiyu2DzwzRd0AWA2M3YSyCHTVNAtDWearxekW7Eflt`,
+        APISECRET: `A7O6GaCv2YhNNveoOpgrN5kpFVyPpNyLMuRrDAxKb0IfAlpIugiDq7eG6XDZhJxM`
+    });
+
+    const socketApi = new SocketClient(`ws/btcusdt@depth@100ms`, 'wss://fstream3.binance.com/');
+
+    //EXECUTION FUNCS
+    var wallet
+    async function CallAccount() {
+        result = await binance.futuresAccount()
+        wallet = Number(result.assets[0].walletBalance)
+        bnb = (result.assets[1].walletBalance)
+    }
+    setInterval(CallAccount, 1000)
+
+    async function CallLimits() {
+
+        result = await binance.futuresOpenOrders("BTCUSDT");
+        // console.log(result)
+        limits = {}
+        for (var i in result) {
+            result[i].price = parseInt(result[i].price / consolidation) * consolidation
+
+            limits[Number(result[i].price)] = {
+                size: result[i].origQty,
+                direction: result[i].side,
+                id: result[i].orderId
+            }
+        }
+        //console.log(limits)
+
+    }
+    setInterval(CallLimits, 1000)
+
+    async function BinanceCancelOrder(price) {
+        console.log(price)
+        for (var i in limits) {
+
+            if (i == price) {
+                var id = limits[i].id
+            }
+            console.info(await binance.futuresCancel("BTCUSDT", {
+                orderId: id
+            }));
+            CallLimits()
+        }
+    }
+    async function getBinancePositionStats() {
+
+        async function asyncCall() {
+            var response = (await binance.futuresPositionRisk());
+            const result = await resolveAfter2Seconds();
+            console.log(response.BTCUSDT)
+            Amount = response.BTCUSDT.positionAmt
+            Entry = (response.BTCUSDT.entryPrice)
+            BinanceEntryPrice = parseInt(Entry / consolidation) * consolidation
+            MarkPrice = Number(response.BTCUSDT.markPrice)
+            PNLP1 = Number(MarkPrice - BinanceEntryPrice).toFixed(1)
+            urpl = Number(response.BTCUSDT.unRealizedProfit)
+        }
+        asyncCall(); //
+        async function resolveAfter2Seconds() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve('Complete!');
+                }, 0);
+            });
+        }
+    }
+    setInterval(getBinancePositionStats, 1000)
+
+
+    function BinanceFBuy(price) {
+        console.log(`\n\n${price}\n\n`)
+        async function asyncCall() {
+            console.info(await binance.futuresBuy('BTCUSDT', typeClip, price));
+            const result = await resolveAfter2Seconds();
+            console.log(result);
+            Notiflix.Notify.Info(`Buy @ ${price} for ${typeClip}`);
+            const musicPath = path.join(__dirname, 'sound-1.mp3')
+            sound.play(musicPath)
+        }
+
+        asyncCall();
+
+        function resolveAfter2Seconds() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve('Complete!');
+                }, 0);
+            });
+        }
+    }
+
+    function BinanceFSell(price) {
+        console.log(`\n\n${price}\n\n`)
+        async function asyncCall() {
+            console.info(await binance.futuresSell('BTCUSDT', typeClip, price));
+            const result = await resolveAfter2Seconds();
+            console.log(result);
+            Notiflix.Notify.Info(`Sell @ ${price} for ${typeClip}`);
+            // expected output: 'resolved'
+            const musicPath = path.join(__dirname, 'sound-1.mp3')
+            sound.play(musicPath)
+
+        }
+
+        asyncCall();
+
+        function resolveAfter2Seconds() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve('Complete!');
+                }, 0);
+            });
+        }
+    }
+
+
+
+    async function CancelAllButton() {
+        (await binance.futuresCancelAll("BTCUSDT"));
+        console.log("Cancelled all")
+        Notiflix.Notify.Success('Cancelled Orders');
+        const musicPath = path.join(__dirname, 'sound-1.mp3')
+        sound.play(musicPath)
+    }
+
+    //WEBSOCKETS
+
+    var lastPrice = {}
+    const ws7 = new WebSocket('wss://fstream.binance.com/ws/btcusdt@trade');
+    ws7.on('message', (data) => {
+        const trade = JSON.parse(data);
+        lastPrice = {
+            price: trade.p,
+            qty: trade.q,
+            direction: trade.m
+        }
+    });
+
+    var candleData = {}
+    const ws8 = new WebSocket('wss://fstream.binance.com/ws/btcusdt@miniTicker');
+    ws8.on('message', (data) => {
+        const miniTicker = JSON.parse(data);
+        //console.log(miniTicker)
+        candleData = {
+            open: miniTicker.o,
+            high: miniTicker.h,
+            low: Number(miniTicker.l),
+            vol: miniTicker.v,
+            time: miniTicker.E
+        }
+    });
+
+    var percentageChange
+    var pointChange
+    var numberTrades
+
+    const ws9 = new WebSocket('wss://fstream.binance.com/ws/btcusdt@ticker');
+    ws9.on('message', (data) => {
+        const Ticker = JSON.parse(data);
+        //console.log(Ticker)
+        percentageChange = Ticker.P
+        pointChange = (Number(Ticker.p)).toFixed(0)
+        numberTrades = Ticker.n
+    });
+
+    var volumeProfileObject = {} //   prices : qty (denoted in BTC)
+
+    var price
+    var rawprice
+    const ws10 = new WebSocket('wss://fstream.binance.com/ws/btcusdt@aggTrade');
+    ws10.on('message', (data) => {
+        const message = JSON.parse(data); // parsing single-trade record
+        //console.log(message)
+        rawprice = message.p
+        price = Math.round(Number(message.p) / consolidation) * consolidation;
+        if (volumeProfileObject[price] == undefined) {
+            volumeProfileObject[price] = Number(message.q)
+        } else {
+            volumeProfileObject[price] = (volumeProfileObject[price] + Number(message.q))
+        }
+        //console.log(volumeProfileObject)
+
+        //calculate center price
+        if (centrePrice == 0) {
+            centrePrice = price
+        }
+    });
+
+
+
+    function dimvalVP() {
+        for (var j in volumeProfileObject) {
+            if (volumeProfileObject[j] >= 150) {
+                for (var i in volumeProfileObject) {
+                    volumeProfileObject[i] = volumeProfileObject[i] / 2
+                }
+            }
+        }
+
+    }
+    setInterval(dimvalVP, 500)
+
+
+
+    function resetDistance() {
+        centrePrice = Math.round(Number(rawprice) / consolidation) * consolidation;
+        Notiflix.Notify.Warning(`Recalculating`);
+    }
+    setInterval(resetDistance, distance)
+</script>
+
+
+<!-- DOM -->
+<style>
+    .meterBids {
+        height: 13px;
+        /* Can be anything */
+        position: relative;
+        /* border-radius: 25px; */
+    }
+    
+    .meterBids>span {
+        display: block;
+        opacity: 0.6;
+        height: 100%;
+        background-color: #0F969E;
+        position: relative;
+    }
+    
+    .meterBidsInternal {
+        height: 13px;
+        /* Can be anything */
+        position: relative;
+        /* border-radius: 25px; */
+    }
+    
+    .meterBidsInternal>span {
+        display: block;
+        opacity: 0.6;
+        height: 100%;
+        background-color: black;
+        position: relative;
+    }
+    
+    .meterAccBids {
+        height: 13px;
+        /* Can be anything */
+        position: relative;
+        transform: rotate(180deg);
+        /* border-radius: 25px; */
+    }
+    
+    .meterAccBids>span {
+        display: block;
+        opacity: 0.8;
+        height: 100%;
+        background-color: gold;
+        position: relative;
+        transform: rotate(180deg);
+    }
+    
+    .meterAsks {
+        height: 13px;
+        position: relative;
+        /* border-radius: 25px; */
+    }
+    
+    .meterAsks>span {
+        display: block;
+        opacity: 0.6;
+        height: 100%;
+        background-color: #D23830;
+        position: relative;
+    }
+</style>
+<!-- 
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    /* body {
+        font: 10px sans-serif;
+        background-color: #F4F5F6;
+    } */
+
+    text {
+        fill: #000;
+    }
+
+    path.candle {
+        stroke: #000000;
+    }
+
+    path.candle.body {
+        stroke-width: 0;
+    }
+
+    path.candle.up {
+        fill: #00AA00;
+        stroke: #00AA00;
+    }
+
+    path.candle.down {
+        fill: #FF0000;
+        stroke: #FF0000;
+    }
+
+    rect.pane {
+        cursor: move;
+        fill: none ;
+        opacity:0.2;
+        pointer-events: all;
+    }
+    .supstance path {
+        stroke: black;
+        stroke-width: 0.8;
+        stroke-dasharray: 2, 2;
+    }
+
+    .mouseover .supstance path {
+        stroke-width: 1.5;
+    }
+    .positionSupstance path {
+        stroke: blue;
+        stroke-width: 0.8;
+        stroke-dasharray: 2, 2;
+    }
+    .buySupstance path {
+        stroke: green;
+        stroke-width: 0.8;
+        stroke-dasharray: 2, 2;
+    }
+    .sellSupstance path {
+        stroke: red;
+        stroke-width: 0.8;
+        stroke-dasharray: 2, 2;
+    }
+    .stopbuySupstance path {
+        stroke: green;
+        stroke-width: 0.8;
+        stroke-dasharray: 2, 2;
+    }
+    .stopsellSupstance path {
+        stroke: red;
+        stroke-width: 0.8;
+        stroke-dasharray: 2, 2;
+    }
+    .mouseover .positionSupstance path {
+        stroke-width: 1.5;
+    }
+
+    .axisannotation path {
+        fill: black;
+    }
+    .axispositionannotation path {
+        fill: blue;
+    }
+    .axisbuyannotation path {
+        fill: green;
+    }
+    .axissellannotation path {
+        fill: red;
+    }
+    .axisannotation text {
+        fill: #fff;
+    }
+
+    .dragging .supstance path {
+        stroke: darkblue;
+    }
+
+    .interaction path {
+        pointer-events: all;
+        cursor: ns-resize;
+        stroke: blue;
+        stroke-width: 1;
+    }
+</style>
+<!-- <div id="chart"></div> -->
+<!-- <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://techanjs.org/techan.min.js"></script>
+<script>
+    var margin = {top: 350, right: 0, bottom: 0, left: 0},
+            width = 100- margin.left - margin.right,
+            height = 600 - margin.top - margin.bottom;
+
+    var parseDate = d3.timeParse("%s"), 
+        valueFormat = d3.format(',.2f');
+
+    var x = techan.scale.financetime()
+            .range([0, width]);
+
+    var y = d3.scaleLinear()
+            .range([height, 0]);
+
+    var zoom = d3.zoom()
+            .on("zoom", zoomed);
+
+    var zoomableInit;
+    var zoomableInit2
+
+    var candlestick = techan.plot.candlestick()
+            .xScale(x)
+            .yScale(y);
+
+    var xAxis = d3.axisBottom(x);
+
+    var yAxis = d3.axisLeft(y);
+
+    var ohlcAnnotation = techan.plot.axisannotation()
+            .axis(yAxis)
+            .orient('left')
+            .format(d3.format(',.2f'));
+    var supstance = techan.plot.supstance()
+            .xScale(x)
+            .yScale(y)
+            .annotation([ohlcAnnotation])
+            .on("mouseenter", enter)
+            .on("mouseout", out)
+            .on("drag", drag);
+
+    var positionsupstances = techan.plot.supstance()
+            .xScale(x)
+            .yScale(y)
+            .annotation([ohlcAnnotation])
+            .on("mouseenter", enter)
+            .on("mouseout", out)
+            .on("drag", drag);
+
+    var svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var defs = svg.append("defs");
+
+    defs.append("clipPath")
+            .attr("id", "ohlcClip")
+        .append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", width)
+            .attr("height", height);
+
+    defs.append("clipPath")
+            .attr("id", "supstanceClip")
+        .append("rect")
+            .attr("x", -margin.left)
+            .attr("y", 0)
+            .attr("width", width+margin.left)
+            .attr("height", height);
+    defs.append("clipPath")
+            .attr("id", "positionSupstanceClip")
+            .append("rect")
+            .attr("x", -margin.left)
+            .attr("y", 0)
+            .attr("width", width+margin.left)
+            .attr("height", height);
+
+    defs.append("clipPath")
+            .attr("id", "limitbuysupstanceclip")
+            .append("rect")
+            .attr("x", -margin.left)
+            .attr("y", 0)
+            .attr("width", width+margin.left)
+            .attr("height", height);
+
+    defs.append("clipPath")
+            .attr("id", "limitsellsupstanceclip")
+            .append("rect")
+            .attr("x", -margin.left)
+            .attr("y", 0)
+            .attr("width", width+margin.left)
+            .attr("height", height);
+
+    defs.append("clipPath")
+            .attr("id", "stopbuysupstanceclip")
+            .append("rect")
+            .attr("x", -margin.left)
+            .attr("y", 0)
+            .attr("width", width+margin.left)
+            .attr("height", height);
+
+    defs.append("clipPath")
+            .attr("id", "stopsellsupstanceclip")
+            .append("rect")
+            .attr("x", -margin.left)
+            .attr("y", 0)
+            .attr("width", width+margin.left)
+            .attr("height", height);
+    var valueText = svg.append('text')
+            .style("text-anchor", "end")
+            .attr("class", "coords")
+            .attr("x", width - 5)
+            .attr("y", 15);
+        
+
+    svg.append("clipPath")
+            .attr("id", "clip")
+        .append("rect")
+            .attr("x", 0)
+            .attr("y", y(1))
+            .attr("width", width)
+            .attr("height", y(0) - y(1));
+
+    svg.append("g")
+            .attr("class", "candlestick")
+            .attr("clip-path", "url(#clip)");
+
+    svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")");
+
+    svg.append("g")
+            .attr("class", "y axis")
+        .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 1)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            //.text("Price ($)");
+
+    svg.append("rect")
+            .attr("class", "pane")
+            .attr("width", width)
+            .attr("height", height)
+            .call(zoom);
+    svg.append("g")           
+            .attr("class", "grid")
+            .attr("transform", "translate(0," + height + ")")
+            .call(make_x_gridlines()
+            .tickSize(-height)
+            .tickFormat("")
+        );
+    svg.append("g")           
+            .attr("class", "grid")
+            .call(make_y_gridlines()
+            .tickSize(-width)
+            .tickFormat("")
+        );
+    svg.append("g")
+            .attr("class", "supstances")
+            .attr("clip-path", "url(#supstanceClip)");
+    svg.append("g")
+            .attr("class", "positionsupstances")
+            .attr("clip-path", "url(#positionSupstanceClip)");
+    svg.append("g")
+            .attr("class", "limitbuysupstances")
+            .attr("clip-path", "url(#limitbuysupstanceclip)");
+    svg.append("g")
+            .attr("class", "limitsellsupstances")
+            .attr("clip-path", "url(#limitsellsupstanceclip)");
+    svg.append("g")
+            .attr("class", "stopbuysupstances")
+            .attr("clip-path", "url(#stopbuysupstanceclip)");
+    svg.append("g")
+            .attr("class", "stopsellsupstances")
+            .attr("clip-path", "url(#stopsellsupstanceclip)");
+
+
+
+    var coordsText = svg.append('text')
+            .style("text-anchor", "end")
+            .attr("class", "coords")
+            .attr("x", width - 5)
+            .attr("y", 15);
+            
+
+  function make_y_gridlines() {       
+        return d3.axisLeft(y)
+            .ticks(1);
+ };
+
+ function make_x_gridlines() {       
+        return d3.axisBottom(x)
+            .ticks(1);
+ };
+var settings = {
+                Execution: {
+                    symbol: "BTCUSDT",
+                }
+}
+
+ var supstanceData = []
+ var positionData = []
+ var limitBuyData = []
+ var limitSellData = []
+ var stopBuyData = []
+ var stopSellData = []
+ var feed = []
+ var updates = []
+ var positionStats = {positions: {'BTCUSDT':{positionAmt : 0}}}
+
+
+
+const { ifError } = require('assert');
+
+
+binance.futuresCandles("BTCUSDT", "1m" ).then(response=>{
+    for (var i = 0 ; i <= 10 ; i++){
+    var tempData = {
+      date: parseDate(Number(response[i][0])/1000),
+      open: Number(response[i][1]),
+      high: Number(response[i][2]),
+      low: Number(response[i][3]),
+      close: Number(response[i][4]),
+      volume: Number(response[i][5]),
+      timestamp: (Number(response[i][0]))/1000
+    }
+    feed.push(tempData)
+
+}
+  const ws = new WebSocket('wss://fstream.binance.com/ws/btcusdt@ticker');
+  ws.on('message', (data) => {
+  const message = JSON.parse(data); // parsing single-trade record
+  var messageTime = Math.floor(Number(message.E)/1000)
+  var btcPrice = Number(message.c)
+  var lastEntry = feed[feed.length-1]
+  var accessor = candlestick.accessor();
+
+  if ((Math.floor(messageTime/60)*60) == lastEntry.timestamp){
+    if(btcPrice > lastEntry.high){
+      lastEntry.high = btcPrice
+    }
+    else if(btcPrice < lastEntry.low){
+      lastEntry.low = btcPrice
+    }
+    lastEntry.close = btcPrice
+
+  }
+  else{
+    var tempData = {
+      date: parseDate(Math.floor(messageTime/60)*60),
+      open: feed[feed.length-1].close,
+      high: btcPrice,
+      low: btcPrice,
+      close: btcPrice,
+      timestamp: (Math.floor(messageTime/60)*60)
+    }
+    feed.push(tempData)
+  }
+  supstanceData.push({value:feed[feed.length-1].close, tag:''})
+  x.domain(feed.map(accessor.d));
+  y.domain(techan.scale.plot.ohlc(feed, accessor).domain());
+
+  svg.select("g.candlestick").datum(feed);
+  zoomableInit = x.zoomable().clamp(false).copy();
+  redraw(feed.slice(feed.length-300, ))
+  supstanceData = []
+  }
+
+
+);
+})
+
+// User Data websocket goes here
+const BinancePosition = require('binance-api-node').default
+// Authenticated client, can make signed calls
+const client1 = new BinancePosition({
+    apiKey: `2X6NwCa2uto2YSX0WSCKX1Xiyu2DzwzRd0AWA2M3YSyCHTVNAtDWearxekW7Eflt`,
+  apiSecret: `A7O6GaCv2YhNNveoOpgrN5kpFVyPpNyLMuRrDAxKb0IfAlpIugiDq7eG6XDZhJxM`,
+})
+
+const clean = client1.ws.futuresUser(message => {
+    console.log(message)
+    if (message.type == 'ORDER_TRADE_UPDATE'){ 
+        //Determine stops/limits/buys/sells
+        if (message.o.X == 'NEW'){  
+            if(message.o.S == 'BUY'){
+                if(message.o.o == 'LIMIT'){
+                    limitBuyData.push({value: Number(message.o.p), price: Number(message.o.p),size: Number(message.o.q), id: Number(message.o.i)})
+                }
+                else if(message.o.o == 'STOP_MARKET'){
+                    stopBuyData.push({value: Number(message.o.sp), price:Number(message.o.sp), size: Number(message.o.q), id: Number(message.o.i)})
+                    console.log(stopBuyData)
+                }
+            }
+            else if(message.o.S == 'SELL'){
+                if(message.o.o == 'LIMIT'){
+                    limitSellData.push({value: Number(message.o.p), price: Number(message.o.p), size: Number(message.o.q), id: Number(message.o.i)})
+                }
+                else if(message.o.o == 'STOP_MARKET'){
+                    stopSellData.push({value: Number(message.o.sp), price: Number(message.o.sp), size: Number(message.o.q), id: Number(message.o.i)})
+                }
+            }
+    }
+        else if (message.o.X == 'CANCELED' || message.o.X == 'FILLED'){
+            // delete entries from arrays
+            if(message.o.S == 'BUY'){
+                if(message.o.o == 'LIMIT'){
+                    for (var i in limitBuyData){
+                        if (Number(message.o.i) == limitBuyData[i].id){
+                            limitBuyData[i].value = '0'
+                            limitBuyData[i].price = '0'
+                            limitBuyData[i].size = '0'
+                            limitBuyData[i].id = '0'
+                        }
+                    }
+                }
+                else if(message.o.o == 'STOP_MARKET'){
+                    for (var i in stopBuyData){
+                        if (Number(message.o.i) == stopBuyData[i].id){
+                            stopBuyData[i].value = '0'
+                            stopBuyData[i].price = '0'
+                            stopBuyData[i].size = '0'
+                            stopBuyData[i].id = '0'
+                        }
+                    }
+                }
+            }
+            else if(message.o.S == 'SELL'){
+                if(message.o.o == 'LIMIT'){
+                    for (var i in limitSellData){
+                        if (Number(message.o.i) == limitSellData[i].id){
+                            limitSellData[i].value = '0'
+                            limitSellData[i].price = '0'
+                            limitSellData[i].size = '0'
+                            limitSellData[i].id = '0'
+                        }
+                    }
+                }
+                else if(message.o.o == 'STOP_MARKET'){
+                    for (var i in stopSellData){
+                        if (Number(message.o.i) == stopSellData[i].id){
+                            stopSellData[i].value = '0'
+                            stopSellData[i].price = '0'
+                            stopSellData[i].size = '0'
+                            stopSellData[i].id = '0'
+                        }
+                    }
+                }
+            }
+            
+        }
+}
+    if (message.type == 'ACCOUNT_UPDATE'){
+        positionData = []
+        if (Number(message.a.P[0].ep) >0){positionData.push({value:message.a.P[0].ep})}
+        console.log(positionData)
+        }
+  })
+
+var rescaledY;
+var rescaledX;
+
+
+function zoomed() {
+    rescaledY = d3.event.transform.rescaleY(y);
+    rescaledX = d3.event.transform.rescaleX(zoomableInit);
+    yAxis.scale(rescaledY);
+    candlestick.yScale(rescaledY);
+    supstance.yScale(rescaledY)
+    positionsupstances.yScale(rescaledY)
+    x.zoomable().domain(rescaledX.domain());
+    draw();
+}
+
+
+
+function redraw(d) {
+    var accessor = candlestick.accessor();
+    x.domain(d.map(accessor.d));
+    y.domain(techan.scale.plot.ohlc(d, accessor).domain());
+    zoomableInit = x.zoomable().clamp(false).copy();
+
+    if (rescaledY || rescaledX) {
+        yAxis.scale(rescaledY);
+        candlestick.yScale(rescaledY);
+        supstance.yScale(rescaledY)
+        positionsupstances.yScale(rescaledY)
+        x.zoomable().domain(rescaledX.domain());
+    }
+
+    svg.select('g.x.axis').call(xAxis);
+    svg.select('g.y.axis').call(yAxis);
+
+    svg.select("g.candlestick").datum(d).call(candlestick);
+    svg.selectAll("g.supstances").datum(supstanceData).call(supstance);
+    svg.selectAll('g.positionsupstances').datum(positionData).call(supstance).classed('positionSupstance', true).classed('axispositionannotation', true)
+    svg.selectAll('g.limitbuysupstances').datum(limitBuyData).call(supstance).classed('buySupstance', true).classed('axisbuyannotation', true).call(supstance.drag)
+    svg.selectAll('g.limitsellsupstances').datum(limitSellData).call(supstance).classed('sellSupstance', true).classed('axissellannotation', true).call(supstance.drag)
+    svg.selectAll('g.stopbuysupstances').datum(stopBuyData).call(supstance).classed('stopbuySupstance', true).classed('axisbuyannotation', true).call(supstance.drag)
+    svg.selectAll('g.stopsellsupstances').datum(stopSellData).call(supstance).classed('stopsellSupstance', true).classed('axissellannotation', true).call(supstance.drag)
+}
+
+    function draw() {
+        svg.select("g.candlestick").call(candlestick);
+        svg.select("g.x.axis").call(xAxis);
+        svg.select("g.y.axis").call(yAxis)
+        
+    }
+
+    function move(coords) {
+        coordsText.text(
+                timeAnnotation.format()(coords.x) + ", " + candleAnnotation.format()(coords.y)
+        );
+    }
+    function enter(d) {
+        valueText.style("display", "inline");
+        refreshText(d);
+    }
+
+    function out() {
+        valueText.style("display", "none");
+    }
+
+    function drag(d) {
+        refreshText(d);
+    }
+
+    function refreshText(d) {
+        valueText.text("Value: " + valueFormat(d.value));
+    }
+
+
+    async function stopBuy(priceStop, quantity){
+        await binance.futuresBuy( settings.Execution.symbol, quantity, price = false, 
+        params = {
+        stopPrice: priceStop,
+        type:'STOP_MARKET',
+        reduceOnly: true,
+        
+    }).then(i => {
+        console.log(i)
+    })
+    }
+
+    //Binance Execution Functions 
+    function refreshStops(){
+        for (var i in stopBuyData){
+            if (stopBuyData[i].value !== stopBuyData[i].price){
+                var newPrice = (stopBuyData[i].value).toFixed(2)
+                var newSize = stopBuyData[i].size
+                var originalID = stopBuyData[i].id
+                cancelLimitByOrderID(originalID).then(d=>{
+                    stopBuy(newPrice, newSize)
+                })
+            }
+        }
+    }setInterval(refreshStops, 1000)
+
+    async function cancelLimitByOrderID(ID){
+        await binance.futuresCancel( "BTCUSDT", {orderId: ID} ).then(d =>{
+            console.log(d, "CANCELLING ORDER")
+    })
+
+
+
+    async function stopSell(priceStop, quantity){
+        await binance.futuresSell( settings.Execution.symbol, quantity, price = false, 
+            params = {
+            stopPrice: priceStop,
+            type:'STOP_MARKET',
+            reduceOnly: true,
+            
+        }).then(i => {
+            stopObject.Bid.price =  Number(i.price)
+            stopObject.Bid.ID = i.orderId
+        })
+    }
+
+    //Limits
+    async function limitBuy(price, quantity){
+        await binance.futuresBuy( settings.Execution.symbol, quantity, price ).then(limitBuyResponse => {
+            //console.log(limitBuyResponse)
+            orderObject.Bid.price = Number(limitBuyResponse.price)
+            orderObject.Bid.ID = String(limitBuyResponse.orderId)
+        })
+    }
+
+    async function limitSell(price, quantity){
+        await binance.futuresSell( settings.Execution.symbol,quantity, price ).then(limitSellResponse => {
+            //console.log(limitSellResponse)
+            orderObject.Ask.price = Number(limitSellResponse.price)
+            orderObject.Ask.ID = String(limitSellResponse.orderId)
+        })
+    }
+    
+}
+
+var orderObject = {}
+async function callOpenOrders(){
+    result = await binance.futuresOpenOrders( "BTCUSDT" ) 
+    console.log(result)
+    for(var i in result){
+        if(result[i].side == "BUY"){
+            limitBuyData.push({value: Number(result[i].price), price: Number(result[i].price),size: Number(result[i].origQty), id: Number(result[i].orderId)})
+        } else {
+            limitSellData.push({value: Number(result[i].price), price: Number(result[i].price),size: Number(result[i].origQty), id: Number(result[i].orderId)})
+        }
+    }
+}setInterval(callOpenOrders, 1000)
+
+async function openPosition(){
+    result = await binance.futuresPositionRisk()
+    entryPrice = (Number(result.BTCUSDT.entryPrice).toFixed(2))
+    positionData.push({value:entryPrice})
+}setInterval(openPosition, 1000)
+</script> -->-->
