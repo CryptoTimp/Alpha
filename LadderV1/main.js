@@ -8,21 +8,26 @@ var settings = require("./settings.js")
 /// create a global var, wich will keep a reference to out loadingScreen window
 let loadingScreen;
 const createLoadingScreen = () => {
+
     /// create a browser window
     loadingScreen = new BrowserWindow(
         Object.assign({
             /// define width and height for the window
+            icon: path.join(__dirname, `alpha.png`),
             width: 400,
             height: 600,
             /// remove the window frame, so it will become a frameless window
             frame: false,
             /// and set the transparency, to remove any window background color
             transparent: true
+
         })
+
     );
+
     loadingScreen.setResizable(false);
-    loadingScreen.loadURL(
-        `C:\\Users\\JT\\Desktop\\Ladder\\LadderV1\\test.html`
+    loadingScreen.loadURL(path.join(__dirname, 'test.html')
+        // `C:\\Users\\JT\\Desktop\\Ladder\\LadderV1\\test.html`
     );
     loadingScreen.on('closed', () => (loadingScreen = null));
     loadingScreen.webContents.on('did-finish-load', () => {
