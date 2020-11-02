@@ -138,7 +138,7 @@
     #header {
         width: 101%;
         background-color: #545454;
-        height: 50px;
+        height: 35px;
         overflow: hidden;
         position: sticky;
         position: -webkit-sticky;
@@ -269,76 +269,6 @@
     }
 </style>
 
-<style>
-    /* The container */
-    
-    .container {
-        display: block;
-        position: relative;
-        padding-left: 27px;
-        margin-bottom: 12px;
-        cursor: pointer;
-        font-size: 22px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-    /* Hide the browser's default checkbox */
-    
-    .container input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-    }
-    /* Create a custom checkbox */
-    
-    .checkmark {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 25px;
-        width: 25px;
-        background-color: grey;
-    }
-    /* On mouse-over, add a grey background color */
-    
-    .container:hover input~.checkmark {
-        background-color: #ccc;
-    }
-    /* When the checkbox is checked, add a blue background */
-    
-    .container input:checked~.checkmark {
-        background-color: #2196F3;
-    }
-    /* Create the checkmark/indicator (hidden when not checked) */
-    
-    .checkmark:after {
-        content: "";
-        position: absolute;
-        display: none;
-    }
-    /* Show the checkmark when checked */
-    
-    .container input:checked~.checkmark:after {
-        display: block;
-    }
-    /* Style the checkmark/indicator */
-    
-    .container .checkmark:after {
-        left: 9px;
-        top: 5px;
-        width: 5px;
-        height: 10px;
-        border: solid white;
-        border-width: 0 3px 3px 0;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
-</style>
 
 <html>
 <div id="header">
@@ -349,9 +279,9 @@
         <td>
             <div id="headerVolume"></div>
         </td>
-        <td>Open</td>
+        <td>Change</td>
         <td>
-            <div id="headerOpen"></div>
+            <div id="headerPercentageChange"></div>
         </td>
         <tr></tr>
         <td>Last</td>
@@ -361,11 +291,6 @@
         <td>High</td>
         <td>
             <div id="headerHigh"></div>
-        </td>
-        <tr></tr>
-        <td>Change</td>
-        <td>
-            <div id="headerPercentageChange"></div>
         </td>
         <td>Low</td>
         <td>
@@ -385,13 +310,14 @@
                 display: block;
             }
         </style>
-        <form>
+        <br>
+        <!-- <form>
             <select class="formCSS" name="dropdown">
                 <option value="BTCUSDT" selected>BTCUSDT</option>
                 <option value="ETHUSDT">ETHUSDT</option>
                 <option value="LINKUSDT">LINKUSDT</option>
             </select>
-        </form>
+        </form> -->
         <!-- 
         <CENTER>
             <style>
@@ -664,9 +590,9 @@
                 Size(F2) <input class="buttRender" type="text" value="50" onkeydown="search1(this)" />
             </td>
             <tr></tr>
-            <td>
+            <!-- <td>
                 Refresh(F3) <input class="buttRender" type="text" value="10" onkeydown="search3(this)" />
-            </td>
+            </td> -->
         </table>
         <script>
             function search2(ele) {
@@ -1312,7 +1238,7 @@
 
         //SEND HEADER STATS
         document.getElementById("headerLastPrice").innerHTML = lastPrice.price;
-        document.getElementById("headerOpen").innerHTML = candleData.open;
+        // document.getElementById("headerOpen").innerHTML = candleData.open;
         document.getElementById("headerHigh").innerHTML = candleData.high;
         document.getElementById("headerLow").innerHTML = candleData.low;
         document.getElementById("headerVolume").innerHTML = candleData.vol;
@@ -1558,7 +1484,7 @@
 
     function resetDistance() {
         centrePrice = Math.round(Number(rawprice) / consolidation) * consolidation;
-        Notiflix.Notify.Warning(`Recalculating`);
+        Notiflix.Notify.Warning(`Recalculating Range`);
     }
     setInterval(resetDistance, distance)
 </script>

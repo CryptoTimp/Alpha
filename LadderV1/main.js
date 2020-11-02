@@ -42,8 +42,8 @@ let willQuitApp = false;
 function createWindow() {
     //Create the main window.
     const mainWindow = new BrowserWindow({
-        width: 559,
-        height: 1200,
+        width: 500,
+        height: 300,
 
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
@@ -100,7 +100,7 @@ function createWindow() {
                 preload: path.join(__dirname, 'preload.js'),
                 nodeIntegration: true
             },
-            title: `Alpha - Order Window`,
+            title: `Alpha - Dashboard`,
             icon: path.join(__dirname, `alpha.png`),
             show: false
         })

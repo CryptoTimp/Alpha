@@ -1,14 +1,57 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .input-icons i {
+            position: absolute;
+        }
+        
+        .input-icons {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .icon {
+            padding: 10px;
+            color: black;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            text-indent: 50px;
+        }
+        
+        p {
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+</head>
+
+
+
 <form id="form" onsubmit="return false;">
     <p>KEY</p>
-    <input type="text" id="Key" name="KEY" value="" />
+    <div class="input-icons">
+        <i class="fa fa-key icon"> 
+        </i>
+        <input class="input-field" type="password" id="Key" name="KEY" value="" />
+    </div>
+
     <p>SECRET</p>
-    <input type="text" id="Secret" name="SECRET" value="" />
+    <div class="input-icons">
+        <i class="fa fa-lock icon"> 
+        </i>
+        <input class="input-field" type="password" id="Secret" name="SECRET" value="" />
+    </div>
     <br>
-    <input type="submit" onclick="othername();" />
+    <input type="submit" onclick="add();" />
 </form>
 
 <script>
-    function othername() {
+    function add() {
         var key = document.getElementById("Key").value;
         var APIKEY = key
         localStorage.APIKEYSTORAGE = APIKEY;
@@ -17,7 +60,7 @@
         var APISECRET = secret
         localStorage.APISECRETSTORAGE = APISECRET;
 
-        alert("Credentials Loaded");
-        window.open("BTC-USDT.html")
+        // alert("Credentials Loaded");
+        window.open("BTC-USDT.html", "Alpha", 'width=558,height=1200')
     }
 </script>
