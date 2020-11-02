@@ -691,7 +691,7 @@
                 }
             }
 
-            distance = 10000
+            distance = 30000
 
             function search3(ele) {
                 if (event.key === 'F3') {
@@ -1307,6 +1307,9 @@
     //   }
 
     function sendStats() {
+
+        console.log(localStorage.APIKEYSTORAGE)
+
         //SEND HEADER STATS
         document.getElementById("headerLastPrice").innerHTML = lastPrice.price;
         document.getElementById("headerOpen").innerHTML = candleData.open;
@@ -1344,8 +1347,10 @@
 
     const Binance = require('node-binance-api');
     const binance = new Binance().options({
-        APIKEY: `2X6NwCa2uto2YSX0WSCKX1Xiyu2DzwzRd0AWA2M3YSyCHTVNAtDWearxekW7Eflt`,
-        APISECRET: `A7O6GaCv2YhNNveoOpgrN5kpFVyPpNyLMuRrDAxKb0IfAlpIugiDq7eG6XDZhJxM`
+        // APIKEY: `2X6NwCa2uto2YSX0WSCKX1Xiyu2DzwzRd0AWA2M3YSyCHTVNAtDWearxekW7Eflt`,
+        APIKEY: localStorage.APIKEYSTORAGE,
+        // APISECRET: `A7O6GaCv2YhNNveoOpgrN5kpFVyPpNyLMuRrDAxKb0IfAlpIugiDq7eG6XDZhJxM`
+        APISECRET: localStorage.APISECRETSTORAGE
     });
 
     const socketApi = new SocketClient(`ws/btcusdt@depth@100ms`, 'wss://fstream3.binance.com/');

@@ -1,1517 +1,1653 @@
 <style>
-
-  body {
-  background-color: white;
-  }
-  .grid-stack {   
-  background-image: url(alphabackground.png); /* The image used */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  }
-  .grid-stack-item-content {
-  color: white;
-  text-align: center;
-  background-color: #000000;
-  -webkit-font-smoothing: antialiased;
-  font-family: sans-serif;
-  }
-  .gauge-container {
-  width: 200px;
-  height: 200px;
-  display: block;
-  padding-left: 50px;
-  }
-  .gauge-container > .gauge .dial {
-  stroke: rgb(255, 255, 255);
-  stroke-width: 1;
-  fill: rgba(255, 255, 255, 0);
-  }
-  .gauge-container > .gauge .value {
-  stroke: rgb(47, 227, 255);
-  stroke-width: 12;
-  fill: rgba(255, 255, 255);
-  }
-  .gauge-container > .gauge .value-text {
-  fill: rgb(255, 255, 255);
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 12;
-  }
-  </style>
-  
-  <!-- OTHER TABLE CSS -->
-  <style>
-  @import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
-  
-  
-  table {
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
-  }
-  th,
-  td {
-    padding: 1px 1px;
-    text-align: center;
-    font-family: 'Open Sans', sans-serif;
-    font: 10px/15px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
-    font-size: small;
-    background: #000000;
-    color: #000000;
-  }
-  th {
-    background: #000000;
-    color: #fff;
-    text-align: center;
-    font-family: 'Open Sans', sans-serif;
-  }
-  tr:first-child th:first-child {
-    border-top-left-radius: 1px;
-  }
-  tr:first-child th:last-child {
-    border-top-right-radius: 1px;
-  }
-  td {
-  
-  
-    color: #fff;
-  }
-  td:first-child {
-  
-    color: #fff;
-    cursor: pointer;
-  }
-  tr:nth-child(even) td {
-    background: #000000;
-  
-    color: #fff;
-  }
-  tr:last-child td:first-child {
-    border-bottom-left-radius: 6px;
-  }
-  tr:last-child td:last-child {
-    border-bottom-right-radius: 6px;
-  }
-  
-  </style>
-  
-  <!-- GUI CSS -->
-  <style>
-    @import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
-  
-    /* GENERIC TABLE SETTINGS */
-    table {
-      border-collapse: collapse;
-      border-spacing: 0;
-      width: 100%;
-      table-layout:fixed;
+    body {
+        background-color: white;
     }
     
-    /* GUI DEPENDENT CSS */
-    .GUI table {
-      border-collapse: collapse;
-      border-spacing: 0;
-      width: 100%;
-      height: 200px;
-      table-layout:fixed;
-  
+    .grid-stack {
+        background-image: url(alphabackground.png);
+        /* The image used */
+        background-position: center;
+        /* Center the image */
+        background-repeat: no-repeat;
+        /* Do not repeat the image */
     }
-    .MainGUI table {
-      border-collapse: collapse;
-      border-spacing: 0;
-      width: 100%;
-      table-layout:fixed;
+    
+    .grid-stack-item-content {
+        color: white;
+        text-align: center;
+        background-color: #000000;
+        -webkit-font-smoothing: antialiased;
+        font-family: sans-serif;
     }
-  
-    .box tbody{
-      height: 100px;
+    
+    .gauge-container {
+        width: 200px;
+        height: 200px;
+        display: block;
+        padding-left: 50px;
     }
-  
-    /* GUI BORDERS SHOW */
-    .GUI td {
-      border-right: 1px solid #c6c9cc;
-      border-bottom: 1px solid #c6c9cc;
-      cursor: pointer;
+    
+    .gauge-container>.gauge .dial {
+        stroke: rgb(255, 255, 255);
+        stroke-width: 1;
+        fill: rgba(255, 255, 255, 0);
     }
-    .GUI td:first-child {
-      border-left: 1px solid #c6c9cc;
-      cursor: pointer;
+    
+    .gauge-container>.gauge .value {
+        stroke: rgb(47, 227, 255);
+        stroke-width: 12;
+        fill: rgba(255, 255, 255);
     }
-  
+    
+    .gauge-container>.gauge .value-text {
+        fill: rgb(255, 255, 255);
+        font-family: sans-serif;
+        font-weight: bold;
+        font-size: 12;
+    }
+</style>
+
+<!-- OTHER TABLE CSS -->
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
+    table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+    }
+    
     th,
     td {
-      padding: 0px 0px;
-      text-align: center;
-      font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
-      font-size: 11;
-      font-weight: bolder;
+        padding: 1px 1px;
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        font: 10px/15px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
+        font-size: small;
+        background: #000000;
+        color: #000000;
     }
+    
     th {
-      background: #222;;
-      color: #fff;
-      text-align: center;
-      font-family: 'Open Sans', sans-serif;
-      position: sticky;
-      position: -webkit-sticky;
-      top: 0;
-      z-index: 999;
+        background: #000000;
+        color: #fff;
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
     }
-  
+    
+    tr:first-child th:first-child {
+        border-top-left-radius: 1px;
+    }
+    
+    tr:first-child th:last-child {
+        border-top-right-radius: 1px;
+    }
+    
+    td {
+        color: #fff;
+    }
+    
+    td:first-child {
+        color: #fff;
+        cursor: pointer;
+    }
+    
+    tr:nth-child(even) td {
+        background: #000000;
+        color: #fff;
+    }
+    
+    tr:last-child td:first-child {
+        border-bottom-left-radius: 6px;
+    }
+    
+    tr:last-child td:last-child {
+        border-bottom-right-radius: 6px;
+    }
+</style>
+
+<!-- GUI CSS -->
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
+    /* GENERIC TABLE SETTINGS */
+    
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        table-layout: fixed;
+    }
+    /* GUI DEPENDENT CSS */
+    
+    .GUI table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        height: 200px;
+        table-layout: fixed;
+    }
+    
+    .MainGUI table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        table-layout: fixed;
+    }
+    
+    .box tbody {
+        height: 100px;
+    }
+    /* GUI BORDERS SHOW */
+    
+    .GUI td {
+        border-right: 1px solid #c6c9cc;
+        border-bottom: 1px solid #c6c9cc;
+        cursor: pointer;
+    }
+    
+    .GUI td:first-child {
+        border-left: 1px solid #c6c9cc;
+        cursor: pointer;
+    }
+    
+    th,
+    td {
+        padding: 0px 0px;
+        text-align: center;
+        font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
+        font-size: 11;
+        font-weight: bolder;
+    }
+    
+    th {
+        background: #222;
+        ;
+        color: #fff;
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        z-index: 999;
+    }
+    
     .allow-scroll {
-      position: relative;
-      height: 800px;
-      width: 100%;
-      
-      overflow-y: scroll;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      overflow-x: hidden;
-      scroll-snap-type: mandatory;
-      scroll-snap-align: y center;
+        position: relative;
+        height: 800px;
+        width: 100%;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        overflow-x: hidden;
+        scroll-snap-type: mandatory;
+        scroll-snap-align: y center;
     }
-  
-    ::-webkit-scrollbar {
+    
+     ::-webkit-scrollbar {
         display: none;
     }
-  
-    .Bid{
-      background: green no-repeat fixed center;
-      color:white;
-    }
-  
-    .Ask{
-      background: red no-repeat fixed center;
-      color:white;
-    }
-  
-    /* ALL OTHER TABLE CSS  */
-    tr:first-child th:first-child {
-      border-top-left-radius: 1px;
-    }
-    tr:first-child th:last-child {
-      border-top-right-radius: 1px;
-    }
-  
-    td {
-      cursor: pointer;
-    }
-    td:first-child {
-      cursor: pointer;
-    }
-  
-    tr:last-child td:first-child {
-      border-bottom-left-radius: 6px;
-      
-    }
-    tr:last-child td:last-child {
-      border-bottom-right-radius: 6px;
-    }
-  
-    /* WATERMARK */
-    #watermark {
-      height: 100%;
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-    #watermark p {
-      position: absolute;
-      top: 950;
-      left: 1750;
-      color: #fff;
-      font-size: 18px;
-      font-family: 'Open Sans', sans-serif;
-      font-weight: bold;
-    }
-  
-    .gauge-container {
-    width: 100%;
-    height: 100%;
-    display: block;
-    padding-left: 50px;
-    }
-    .gauge-container > .gauge .dial {
-      stroke: rgb(0,0,0);
-      stroke-width: 10;
-      fill: rgba(0,0,0,0);
-    }
-    .gauge-container > .gauge .value {
-      stroke: rgb(47, 227, 255);
-      stroke-width: 200;
-      fill: rgba(0,0,0,0);
-    }
-    .gauge-container > .gauge .value-text {
-      fill: rgb(0,0,0);
-      font-family: sans-serif;
-      font-weight: bold;
-      font-size: 12;
-    }
-  </style>
-  
-  <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@1.1.2/dist/gridstack.min.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/gridstack@1.1.2/dist/gridstack.all.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-  <script src="http://techanjs.org/techan.min.js"></script>
+    .Bid {
+        background: green no-repeat fixed center;
+        color: white;
+    }
+    
+    .Ask {
+        background: red no-repeat fixed center;
+        color: white;
+    }
+    /* ALL OTHER TABLE CSS  */
+    
+    tr:first-child th:first-child {
+        border-top-left-radius: 1px;
+    }
+    
+    tr:first-child th:last-child {
+        border-top-right-radius: 1px;
+    }
+    
+    td {
+        cursor: pointer;
+    }
+    
+    td:first-child {
+        cursor: pointer;
+    }
+    
+    tr:last-child td:first-child {
+        border-bottom-left-radius: 6px;
+    }
+    
+    tr:last-child td:last-child {
+        border-bottom-right-radius: 6px;
+    }
+    /* WATERMARK */
+    
+    #watermark {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    #watermark p {
+        position: absolute;
+        top: 950;
+        left: 1750;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+    }
+    
+    .gauge-container {
+        width: 100%;
+        height: 100%;
+        display: block;
+        padding-left: 50px;
+    }
+    
+    .gauge-container>.gauge .dial {
+        stroke: rgb(0, 0, 0);
+        stroke-width: 10;
+        fill: rgba(0, 0, 0, 0);
+    }
+    
+    .gauge-container>.gauge .value {
+        stroke: rgb(47, 227, 255);
+        stroke-width: 200;
+        fill: rgba(0, 0, 0, 0);
+    }
+    
+    .gauge-container>.gauge .value-text {
+        fill: rgb(0, 0, 0);
+        font-family: sans-serif;
+        font-weight: bold;
+        font-size: 12;
+    }
+</style>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@1.1.2/dist/gridstack.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/gridstack@1.1.2/dist/gridstack.all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="http://techanjs.org/techan.min.js"></script>
 
 
-  </head>
+</head>
 
 <body>
 
-<div class="grid-stack">
+    <div class="grid-stack">
 
-<!-- WATERMARK -->
-  <div id="watermark">
-    <p>Alpha v0.5</p>
-  </div>
+        <!-- WATERMARK -->
+        <div id="watermark">
+            <p>Alpha v0.5</p>
+        </div>
 
-<!-- GUI CONTAINER -->
-<!-- <div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="2" data-gs-height="13">
+        <!-- GUI CONTAINER -->
+        <!-- <div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="2" data-gs-height="13">
 <div class="grid-stack-item-content">
 <div id="GUI"></div>
 </div>
 </div> -->
 
-<!-- POSITIONS CONTAINER -->
-<div class="grid-stack-item" data-gs-x="8" data-gs-y="4" data-gs-width="4" data-gs-height="2">
-<div class="grid-stack-item-content"><table id="positions"></table></div>
-</div>
+        <!-- POSITIONS CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="8" data-gs-y="4" data-gs-width="4" data-gs-height="2">
+            <div class="grid-stack-item-content">
+                <table id="positions"></table>
+            </div>
+        </div>
 
-<!-- MARKET WATCH CONTAINER -->
-<div class="grid-stack-item" data-gs-x="4" data-gs-y="8" data-gs-width="5" data-gs-height="6">
-<div class="grid-stack-item-content"><table id="table"></table></div>
-</div>
+        <!-- MARKET WATCH CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="4" data-gs-y="8" data-gs-width="5" data-gs-height="6">
+            <div class="grid-stack-item-content">
+                <table id="table"></table>
+            </div>
+        </div>
 
-<!-- BINANCE TOS CONTAINER -->
-<div class="grid-stack-item" data-gs-x="4" data-gs-y="0" data-gs-width="2" data-gs-height="7">
-  <div class="grid-stack-item-content"><table id="BinanceTOS"></table></div>
-</div>
+        <!-- BINANCE TOS CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="4" data-gs-y="0" data-gs-width="2" data-gs-height="7">
+            <div class="grid-stack-item-content">
+                <table id="BinanceTOS"></table>
+            </div>
+        </div>
 
-<!-- BITMEX TOS CONTAINER -->
-<div class="grid-stack-item" data-gs-x="6" data-gs-y="0" data-gs-width="2" data-gs-height="7">
-  <div class="grid-stack-item-content"><table id="BitmexTOS"></table></div>
-</div>
+        <!-- BITMEX TOS CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="6" data-gs-y="0" data-gs-width="2" data-gs-height="7">
+            <div class="grid-stack-item-content">
+                <table id="BitmexTOS"></table>
+            </div>
+        </div>
 
-<!-- USER TRADES CONTAINER -->
-<div class="grid-stack-item" data-gs-x="8" data-gs-y="6" data-gs-width="4" data-gs-height="3">
-  <div class="grid-stack-item-content"><table id="userTradesTable"></table></div>
-</div>
+        <!-- USER TRADES CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="8" data-gs-y="6" data-gs-width="4" data-gs-height="3">
+            <div class="grid-stack-item-content">
+                <table id="userTradesTable"></table>
+            </div>
+        </div>
 
-<!-- USER ORDERS CONTAINER -->
-<div class="grid-stack-item" data-gs-x="8" data-gs-y="4" data-gs-width="4" data-gs-height="2">
-  <div class="grid-stack-item-content"><table id="userOrdersTable"></table></div>
-</div>
+        <!-- USER ORDERS CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="8" data-gs-y="4" data-gs-width="4" data-gs-height="2">
+            <div class="grid-stack-item-content">
+                <table id="userOrdersTable"></table>
+            </div>
+        </div>
 
-<!-- ACCOUNT CONTAINER -->
-<div class="grid-stack-item" data-gs-x="11" data-gs-y="8" data-gs-width="1" data-gs-height="2">
-  <div class="grid-stack-item-content"><table id="accountTable"></table></div>
-</div>
+        <!-- ACCOUNT CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="11" data-gs-y="8" data-gs-width="1" data-gs-height="2">
+            <div class="grid-stack-item-content">
+                <table id="accountTable"></table>
+            </div>
+        </div>
 
-<!-- TIME CONTAINER -->
-<div class="grid-stack-item" data-gs-x="11" data-gs-y="11" data-gs-width="1" data-gs-height="1">
-  <div class="grid-stack-item-content">
+        <!-- TIME CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="11" data-gs-y="11" data-gs-width="1" data-gs-height="1">
+            <div class="grid-stack-item-content">
 
-    <table>
-      <td>London</td><td><div id="Time"></div></td>
-      <tr></tr>
-      <td>New York</td><td><div id="TimeUS"></div></td>
-      <tr></tr>
-      <td>NFT</td><td><div id="NFT"></div></td>
-    </table>
+                <table>
+                    <td>London</td>
+                    <td>
+                        <div id="Time"></div>
+                    </td>
+                    <tr></tr>
+                    <td>New York</td>
+                    <td>
+                        <div id="TimeUS"></div>
+                    </td>
+                    <tr></tr>
+                    <td>NFT</td>
+                    <td>
+                        <div id="NFT"></div>
+                    </td>
+                </table>
 
-  </div>
-</div>
+            </div>
+        </div>
 
-<!-- LEVERAGE CONTAINER -->
-<div class="grid-stack-item" data-gs-x="11" data-gs-y="7" data-gs-width="1" data-gs-height="2">
-  <div class="grid-stack-item-content"><div id="LeverageGauge"></div></div>
-</div>
 
-<!-- MOVER CONTAINER -->
-<div class="grid-stack-item" data-gs-x="9" data-gs-y="7" data-gs-width="2" data-gs-height="6">
-  <div class="grid-stack-item-content">
-    <table>
-    <thead>
-      <th colspan="4"><img src="binance_futures.svg" width="10" height="10"> Biggest Movers</th><tr>
-      <th>Asset</th><th>%Δ</th><th>$Δ</th><th>Volume</th>
-      </tr>
-    </thead>
-    <tbody id="leaderboard"></tbody>
-    </table>
-</div>
-</div>
 
-<!-- RISK CONTAINER -->
-<div class="grid-stack-item" data-gs-x="0" data-gs-y="7" data-gs-width="2" data-gs-height="6">
-  <div class="grid-stack-item-content"></table><table id="riskTable"></table></div>
-</div>
+        <!-- MOVER CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="9" data-gs-y="7" data-gs-width="2" data-gs-height="6">
+            <div class="grid-stack-item-content">
+                <table>
+                    <thead>
+                        <th colspan="4"><img src="binance_futures.svg" width="10" height="10"> Biggest Movers</th>
+                        <tr>
+                            <th>Asset</th>
+                            <th>%Δ</th>
+                            <th>$Δ</th>
+                            <th>Volume</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard"></tbody>
+                </table>
+            </div>
+        </div>
 
-<!-- LIQUIDATIONS CONTAINER -->
-<div class="grid-stack-item" data-gs-x="2" data-gs-y="7" data-gs-width="2" data-gs-height="6">
-  <div class="grid-stack-item-content"></table><table id="LiquidationTOS"></table></div>
-</div>
+        <!-- RISK CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="0" data-gs-y="7" data-gs-width="2" data-gs-height="6">
+            <div class="grid-stack-item-content">
+                </table>
+                <table id="riskTable"></table>
+            </div>
+        </div>
 
-<!-- CORRELATION CONTAINER -->
-<div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="4" data-gs-height="7">
-  <div class="grid-stack-item-content"></table>
-    <table><th><img src="binance_futures.svg" width="10" height="10"> Pearsons Correlation</th></table>
-    <div id="grid"></div>
-  </div>
-</div>
+        <!-- LIQUIDATIONS CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="2" data-gs-y="7" data-gs-width="2" data-gs-height="6">
+            <div class="grid-stack-item-content">
+                </table>
+                <table id="LiquidationTOS"></table>
+            </div>
+        </div>
 
-<div id="legend"></div>
-</div>
-</div>
+        <!-- CORRELATION CONTAINER -->
+        <div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="4" data-gs-height="7">
+            <div class="grid-stack-item-content">
+                </table>
+                <table>
+                    <th><img src="binance_futures.svg" width="10" height="10"> Pearsons Correlation</th>
+                </table>
+                <div id="grid"></div>
+            </div>
+        </div>
+
+        <div id="legend"></div>
+    </div>
+    </div>
 
 </body>
 
 <script type="text/javascript">
-//INIT GRID
-var grid = GridStack.init();
+    //INIT GRID
+    var grid = GridStack.init();
 
 
-('use strict');
-const BitMEXClient = require('./index');
-const client = new BitMEXClient({ testnet: false });
-client.on('error', console.error);
-client.on('open', () => console.log('BitMEX Connection openend.'));
-client.on('close', () => console.log('BitMEX Connection closed.'));
-client.on('initialize', () => console.log('BitMEX API Connected.'));
-
-
-//SETTINGS
-var settings = require("./settings.js")
-const consolidation = 1
-const WebSocket = require('ws');
-var EventTime = {}
-var MarkPrice = {}
-var FundingRate = {}
-var NextFundingTime = {};
-var oldData = {}
-
-const Binance = require('node-binance-api');
-const binance = new Binance().options({
-  APIKEY: `${settings.APIKey}`,
-  APISECRET: `${settings.APISecret}`
-});
-
-//OPEN ORDERS
-var openOrders = {}
-async function OpenOrders(){
-  result = await binance.futuresOpenOrders();
-  //console.log(result)
-  openOrders = {}
-  for (var i in result){
-    orderId = result[i].orderId
-    openOrders[orderId] = result[i]
-  }
-  //console.log(openOrders)
-}setInterval(OpenOrders, 30000)
-OpenOrders()
-
-//POSITION STATS
-var positionStats = {assets: {}, positions: {}}
-async function PositionStats(){
-  account =   await binance.futuresAccount()      
-  positions = await binance.futuresPositionRisk() 
-
-  positionStats.feeTier = account.feeTier
-  positionStats.totalWalletBalance = account.totalWalletBalance
-  positionStats.marginBalance = account.totalMarginBalance
-  positionStats.totalUnrealizedProfit = account.totalUnrealizedProfit
-
-  for (var i in account.assets){
-      positionStats.assets[account.assets[i].asset] = account.assets[i]
-  }
-  for (var i in account.positions){
-      positionStats.positions[account.positions[i].symbol] = account.positions[i]
-  }
-  for (var i in positions){
-      positionStats.positions[positions[i].symbol].positionAmt = positions[i].positionAmt 
-      positionStats.positions[positions[i].symbol].entryPrice = positions[i].entryPrice 
-      positionStats.positions[positions[i].symbol].liquidationPrice = positions[i].liquidationPrice 
-      positionStats.positions[positions[i].symbol].markPrice = positions[i].markPrice 
-  }
-
-  //console.log(positionStats)
-}setInterval(PositionStats, 5000)
-PositionStats()
-
-
-//MARKET WATCH
-var marketWatchData = {}
-var ws = new WebSocket('wss://fstream.binance.com/stream?streams=!markPrice@arr@1s');
-ws.on('message', function incoming(data) {
-  var response = JSON.parse(data);
-  
-
-  NFT = (timeConverterFunding((response.data[0].T)))
-  TimeNow = timeConverter(Date.now())
-
-  TimeUS = (new Date().toLocaleString("en-US", {timeZone: "America/New_York"}))
-  TimeUS1 = (TimeUS.slice(10,20))
-
-  document.getElementById( 'NFT' ).innerHTML = NFT;
-  document.getElementById( 'Time' ).innerHTML = TimeNow;
-  document.getElementById( 'TimeUS' ).innerHTML = TimeUS1;
-  let i;
-  
-  var data = {}
-
-  for (i in response.data){
-
-      data[response.data[i].s] = {price: Number((response.data[i].p)).toFixed(5), fundingRate: Number((response.data[i].r)*100).toFixed(4)}
-      
-  }  
-  marketWatchData = data
-  //console.log(marketWatchData)  
-})
-
-// MARKET WATCH CANDLE DATA
-var candles = {}
-async function getCandleData(){
-  // Function to get binance F tickers, then call hourly candle data for each, and calculate the hourly, 6hr, daily, and wekkly percentage change.
-  var quote = await binance.futuresQuote()
-  tickers = Object.keys(quote)
-  //console.log(tickers)
-  
-  for (var ticker in tickers){
-     response = await binance.futuresCandles( String(tickers[ticker]), "1h" )
-   
-     candles[tickers[ticker]] = {}
-     try{candles[tickers[ticker]].hourly = (((Number(response[response.length - 1][4]) -  Number(response[response.length - 1][1]))/Number(response[response.length - 1][4]))*100).toFixed(2)}catch(e){candles[tickers[ticker]].hourly = "N/A"}
-     try{candles[tickers[ticker]].sixHourly = (((Number(response[response.length - 1][4]) -  Number(response[response.length - 7][4]))/Number(response[response.length - 1][4]))*100).toFixed(2)}catch(e){candles[tickers[ticker]].sixHourly = "N/A"}
-     try{candles[tickers[ticker]].daily = (((Number(response[response.length - 1][4]) -  Number(response[response.length - 25][4]))/Number(response[response.length - 1][4]))*100).toFixed(2)}catch(e){candles[tickers[ticker]].daily = "N/A"}
-     try{candles[tickers[ticker]].weekly = (((Number(response[response.length - 1][4]) -  Number(response[response.length - 169][4]))/Number(response[response.length - 1][4]))*100).toFixed(2)}catch(e){candles[tickers[ticker]].weekly = "N/A"}
-  }
-  //console.log(candles)
-
-}getCandleData()
-setInterval(getCandleData, 300000)
-
-
-
-
-class SocketClient {
-  constructor(path, baseUrl) {
-    this.baseUrl = baseUrl || 'wss://stream.binance.com/';
-    this._path = path;
-    this._createSocket();
-    this._handlers = new Map();
-  }
-
-  _createSocket() {
-    console.log(`${this.baseUrl}${this._path}`);
-    this._ws = new WebSocket(`${this.baseUrl}${this._path}`);
-
-    this._ws.onopen = () => {
-      //console.log('ws connected');
-    };
-
-    this._ws.on('pong', () => {
-      //console.log('receieved pong from server');
+    ('use strict');
+    const BitMEXClient = require('./index');
+    const client = new BitMEXClient({
+        testnet: false
     });
-    this._ws.on('ping', () => {
-      //console.log('==========receieved ping from server');
-      this._ws.pong();
+    client.on('error', console.error);
+    client.on('open', () => console.log('BitMEX Connection openend.'));
+    client.on('close', () => console.log('BitMEX Connection closed.'));
+    client.on('initialize', () => console.log('BitMEX API Connected.'));
+
+
+    //SETTINGS
+    var settings = require("./settings.js")
+    const consolidation = 1
+    const WebSocket = require('ws');
+    var EventTime = {}
+    var MarkPrice = {}
+    var FundingRate = {}
+    var NextFundingTime = {};
+    var oldData = {}
+
+    const Binance = require('node-binance-api');
+    const binance = new Binance().options({
+        APIKEY: `${localStorage.APIKEYSTORAGE}`,
+        APISECRET: `${localStorage.APISECRETSTORAGE}`
     });
 
-    this._ws.onclose = () => {
-      console.log('ws closed');
-    };
+    //OPEN ORDERS
+    var openOrders = {}
+    async function OpenOrders() {
+        result = await binance.futuresOpenOrders();
+        //console.log(result)
+        openOrders = {}
+        for (var i in result) {
+            orderId = result[i].orderId
+            openOrders[orderId] = result[i]
+        }
+        //console.log(openOrders)
+    }
+    setInterval(OpenOrders, 30000)
+    OpenOrders()
 
-    this._ws.onerror = (err) => {
-      console.log('ws error', err);
-    };
+    //POSITION STATS
+    var positionStats = {
+        assets: {},
+        positions: {}
+    }
+    async function PositionStats() {
+        account = await binance.futuresAccount()
+        positions = await binance.futuresPositionRisk()
 
-    this._ws.onmessage = (msg) => {
-      try {
-        const message = JSON.parse(msg.data);
-        console.log(message)
-        
-        // process order update
-        if (message.e == 'ORDER_TRADE_UPDATE'){ 
-          console.log(`ORDER UPDATE for ${message.o.i}`)
-          console.log(message.o.x)
-          if (Object.keys(openOrders).includes(String(message.o.i))){ // CHECK FOR CANCELLED / FILLED ORDER
-            if (message.o.X == 'CANCELED' || message.o.X == 'FILLED'){
-              console.log(`${message.o.x} ${message.o.i}`)
-              delete openOrders[message.o.i]
-            } 
-          }
-          if (message.o.X == 'NEW'){                                  // CHECK FOR NEW ORDER
-              console.log(`NEW ORDER ${message.o.i}`)
-              openOrders[message.o.i] = {
-                orderId: message.o.i,
-                time: message.o.T,
-                symbol: message.o.s,
-                price: message.o.p,
-                side: message.o.S,
-                origQty: message.o.q,
-                reduceOnly: message.o.R
-              }
-              //console.log(openOrders)
+        positionStats.feeTier = account.feeTier
+        positionStats.totalWalletBalance = account.totalWalletBalance
+        positionStats.marginBalance = account.totalMarginBalance
+        positionStats.totalUnrealizedProfit = account.totalUnrealizedProfit
+
+        for (var i in account.assets) {
+            positionStats.assets[account.assets[i].asset] = account.assets[i]
+        }
+        for (var i in account.positions) {
+            positionStats.positions[account.positions[i].symbol] = account.positions[i]
+        }
+        for (var i in positions) {
+            positionStats.positions[positions[i].symbol].positionAmt = positions[i].positionAmt
+            positionStats.positions[positions[i].symbol].entryPrice = positions[i].entryPrice
+            positionStats.positions[positions[i].symbol].liquidationPrice = positions[i].liquidationPrice
+            positionStats.positions[positions[i].symbol].markPrice = positions[i].markPrice
+        }
+
+        //console.log(positionStats)
+    }
+    setInterval(PositionStats, 5000)
+    PositionStats()
+
+
+    //MARKET WATCH
+    var marketWatchData = {}
+    var ws = new WebSocket('wss://fstream.binance.com/stream?streams=!markPrice@arr@1s');
+    ws.on('message', function incoming(data) {
+        var response = JSON.parse(data);
+
+
+        NFT = (timeConverterFunding((response.data[0].T)))
+        TimeNow = timeConverter(Date.now())
+
+        TimeUS = (new Date().toLocaleString("en-US", {
+            timeZone: "America/New_York"
+        }))
+        TimeUS1 = (TimeUS.slice(10, 20))
+
+        document.getElementById('NFT').innerHTML = NFT;
+        document.getElementById('Time').innerHTML = TimeNow;
+        document.getElementById('TimeUS').innerHTML = TimeUS1;
+        let i;
+
+        var data = {}
+
+        for (i in response.data) {
+
+            data[response.data[i].s] = {
+                price: Number((response.data[i].p)).toFixed(5),
+                fundingRate: Number((response.data[i].r) * 100).toFixed(4)
+            }
+
+        }
+        marketWatchData = data
+            //console.log(marketWatchData)  
+    })
+
+    // MARKET WATCH CANDLE DATA
+    var candles = {}
+    async function getCandleData() {
+        // Function to get binance F tickers, then call hourly candle data for each, and calculate the hourly, 6hr, daily, and wekkly percentage change.
+        var quote = await binance.futuresQuote()
+        tickers = Object.keys(quote)
+            //console.log(tickers)
+
+        for (var ticker in tickers) {
+            response = await binance.futuresCandles(String(tickers[ticker]), "1h")
+
+            candles[tickers[ticker]] = {}
+            try {
+                candles[tickers[ticker]].hourly = (((Number(response[response.length - 1][4]) - Number(response[response.length - 1][1])) / Number(response[response.length - 1][4])) * 100).toFixed(2)
+            } catch (e) {
+                candles[tickers[ticker]].hourly = "N/A"
+            }
+            try {
+                candles[tickers[ticker]].sixHourly = (((Number(response[response.length - 1][4]) - Number(response[response.length - 7][4])) / Number(response[response.length - 1][4])) * 100).toFixed(2)
+            } catch (e) {
+                candles[tickers[ticker]].sixHourly = "N/A"
+            }
+            try {
+                candles[tickers[ticker]].daily = (((Number(response[response.length - 1][4]) - Number(response[response.length - 25][4])) / Number(response[response.length - 1][4])) * 100).toFixed(2)
+            } catch (e) {
+                candles[tickers[ticker]].daily = "N/A"
+            }
+            try {
+                candles[tickers[ticker]].weekly = (((Number(response[response.length - 1][4]) - Number(response[response.length - 169][4])) / Number(response[response.length - 1][4])) * 100).toFixed(2)
+            } catch (e) {
+                candles[tickers[ticker]].weekly = "N/A"
             }
         }
-        if (message.e == 'ACCOUNT_UPDATE'){
-          // UPDATE WALLET BALANCES
-          positionStats.assets.USDT.walletBalance = message.a.B[0].wb
-          positionStats.assets.BNB.walletBalance = message.a.B[1].wb
-          
-          for (var i in message.a.P){
-            var symbol = message.a.P[i].s
-            positionStats.positions[symbol].positionAmt = message.a.P[i].pa
-            positionStats.positions[symbol].entryPrice = message.a.P[i].ep
-            positionStats.positions[symbol].unrealizedProfit = message.a.P[i].up
-          }
+        //console.log(candles)
+
+    }
+    getCandleData()
+    setInterval(getCandleData, 300000)
+
+
+
+
+    class SocketClient {
+        constructor(path, baseUrl) {
+            this.baseUrl = baseUrl || 'wss://stream.binance.com/';
+            this._path = path;
+            this._createSocket();
+            this._handlers = new Map();
+        }
+
+        _createSocket() {
+            console.log(`${this.baseUrl}${this._path}`);
+            this._ws = new WebSocket(`${this.baseUrl}${this._path}`);
+
+            this._ws.onopen = () => {
+                //console.log('ws connected');
+            };
+
+            this._ws.on('pong', () => {
+                //console.log('receieved pong from server');
+            });
+            this._ws.on('ping', () => {
+                //console.log('==========receieved ping from server');
+                this._ws.pong();
+            });
+
+            this._ws.onclose = () => {
+                console.log('ws closed');
+            };
+
+            this._ws.onerror = (err) => {
+                console.log('ws error', err);
+            };
+
+            this._ws.onmessage = (msg) => {
+                try {
+                    const message = JSON.parse(msg.data);
+                    console.log(message)
+
+                    // process order update
+                    if (message.e == 'ORDER_TRADE_UPDATE') {
+                        console.log(`ORDER UPDATE for ${message.o.i}`)
+                        console.log(message.o.x)
+                        if (Object.keys(openOrders).includes(String(message.o.i))) { // CHECK FOR CANCELLED / FILLED ORDER
+                            if (message.o.X == 'CANCELED' || message.o.X == 'FILLED') {
+                                console.log(`${message.o.x} ${message.o.i}`)
+                                delete openOrders[message.o.i]
+                            }
+                        }
+                        if (message.o.X == 'NEW') { // CHECK FOR NEW ORDER
+                            console.log(`NEW ORDER ${message.o.i}`)
+                            openOrders[message.o.i] = {
+                                    orderId: message.o.i,
+                                    time: message.o.T,
+                                    symbol: message.o.s,
+                                    price: message.o.p,
+                                    side: message.o.S,
+                                    origQty: message.o.q,
+                                    reduceOnly: message.o.R
+                                }
+                                //console.log(openOrders)
+                        }
+                    }
+                    if (message.e == 'ACCOUNT_UPDATE') {
+                        // UPDATE WALLET BALANCES
+                        positionStats.assets.USDT.walletBalance = message.a.B[0].wb
+                        positionStats.assets.BNB.walletBalance = message.a.B[1].wb
+
+                        for (var i in message.a.P) {
+                            var symbol = message.a.P[i].s
+                            positionStats.positions[symbol].positionAmt = message.a.P[i].pa
+                            positionStats.positions[symbol].entryPrice = message.a.P[i].ep
+                            positionStats.positions[symbol].unrealizedProfit = message.a.P[i].up
+                        }
+
+                    }
+                } catch (e) {
+                    console.log('Parse message failed', e);
+                }
+            };
+
+            this.heartBeat();
+        }
+
+        heartBeat() {
+            setInterval(() => {
+                if (this._ws.readyState === WebSocket.OPEN) {
+                    this._ws.ping();
+                    console.log("ping server");
+                }
+            }, 5000);
+        }
+
+        setHandler(method, callback) {
+            if (!this._handlers.has(method)) {
+                this._handlers.set(method, []);
+            }
+            this._handlers.get(method).push(callback);
+        }
+    }
+
+    binance.futuresGetDataStream().then(response => {
+        try {
+            const listenKey = response.listenKey
+            const socketApi = new SocketClient(`ws/${listenKey}`, 'wss://fstream.binance.com/');
+            socketApi.setHandler('executionReport', (params) => console.log(params));
+            socketApi.setHandler('outboundAccountInfo', (params) => console.log(params));
+        } catch (error) {}
+    })
+
+    function timeConverter(UNIX_timestamp) {
+        var a = new Date(UNIX_timestamp);
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time = hour + ':' + min + ':' + sec;
+        return time;
+    }
+
+    function timeConverterFunding(UNIX_timestamp) {
+        var a = new Date(UNIX_timestamp);
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time = hour + ':' + min + "0" + ':' + sec + "0";
+        return time;
+    }
+
+
+    var BinanceTOSData = []
+    var lastTrade
+    const ws2 = new WebSocket('wss://fstream.binance.com/ws/btcusdt@trade');
+
+    ws2.on('message', (data) => {
+        const trade = JSON.parse(data); // parsing single-trade record
+        lastTrade = {}
+        lastTrade.price = parseInt((trade.p) / consolidation) * consolidation
+        lastTrade.size = (trade.q)
+            //console.log(trade)
+
+        lastTrade.direction = (trade.m)
+        if ((Number(trade.q) * Number(trade.p)) > settings.BinanceTOS.sizeThreshold) {
+            BinanceTOSData.push(JSON.parse(data))
+            if (BinanceTOSData.length > settings.BinanceTOS.tableLength) {
+                BinanceTOSData.shift()
+            }
+        }
+    });
+
+    var BinanceLiquidationTOSData = []
+    var lastLiq
+    const ws3 = new WebSocket('wss://fstream.binance.com/ws/btcusdt@forceOrder');
+
+    ws3.on('message', (data) => {
+        const liq = JSON.parse(data); // parsing single-trade record
+        lastLiq = {}
+        lastLiq.price = parseInt((liq.o.p) / consolidation) * consolidation
+        lastLiq.size = (liq.o.q)
+        console.log(liq.o)
+
+        lastLiq.direction = (liq.o.S)
+        if ((Number(liq.o.q) * Number(liq.o.p)) > settings.LiquidationTOS.sizeThreshold) {
+            BinanceLiquidationTOSData.push(JSON.parse(data))
+            if (BinanceLiquidationTOSData.length > settings.LiquidationTOS.tableLength) {
+                BinanceLiquidationTOSData.shift()
+            }
+        }
+        console.log(BinanceLiquidationTOSData)
+    });
+
+    var startPrice
+    var prices = {}
+
+
+    var BinanceEntryPrice
+
+    var MarkPrice
+
+    async function getBinancePositionStats() {
+
+        async function asyncCall() {
+            var response = (await binance.futuresPositionRisk());
+            //console.log(response)
+            Entry = (response.BTCUSDT.entryPrice)
+            BinanceEntryPrice = parseInt(Entry / consolidation) * consolidation
+            MarkPrice = Number(response.BTCUSDT.markPrice)
+            PNLP1 = Number(MarkPrice - BinanceEntryPrice).toFixed(1)
+        }
+        asyncCall(); //
+
+    }
+    setInterval(getBinancePositionStats, 1000)
+
+
+    function BinanceFBuy(price) {
+        console.log(`\n\n${price}\n\n`)
+        async function asyncCall() {
+            console.info(await binance.futuresBuy('BTCUSDT', 0.001, price));
+
+
+            // expected output: 'resolved'
+        }
+
+        asyncCall();
+
+
+    }
+
+    function BinanceFSell(price) {
+        console.log(`\n\n${price}\n\n`)
+        async function asyncCall() {
+            console.info(await binance.futuresSell('BTCUSDT', 0.001, price));
+            const result = await resolveAfter2Seconds();
+            console.log(result);
+
+            // expected output: 'resolved'
 
         }
-      } catch (e) {
-        console.log('Parse message failed', e);
-      }
+
+        asyncCall();
+
+        function resolveAfter2Seconds() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve('Complete!');
+                }, 0);
+            });
+        }
+    }
+    CallHighLow()
+    var highLow = {}
+
+    function CallHighLow() {
+        async function asyncCall() {
+            result = (await binance.futuresCandles("BTCUSDT", "1d"));
+
+            highLow.high = parseInt((result[(result.length - 1)][2]) / consolidation) * consolidation
+            highLow.low = parseInt((result[(result.length - 1)][3]) / consolidation) * consolidation
+                //console.log(highLow);
+        }
+        asyncCall();
+
+    }
+    setInterval(CallHighLow, 60000)
+    var limits = {}
+    async function CallLimits() {
+
+        result = await binance.futuresOpenOrders("BTCUSDT");
+        //console.log(result)
+        limits = {}
+        for (var i in result) {
+            result[i].price = parseInt(result[i].price / consolidation) * consolidation
+            limits[result[i].price] = {
+                size: result[i].origQty,
+                direction: result[i].side,
+                id: result[i].orderId
+            }
+        }
+        //console.log(limits)
+
+    }
+    setInterval(CallLimits, 1000)
+
+    async function BinanceCancelOrder(id) {
+        console.log(id)
+        console.info(await binance.futuresCancel("BTCUSDT", {
+            orderId: id
+        }));
+        CallLimits()
+    }
+
+
+    // BitMEX TOS DATA
+    var BitMEXTOSData = []
+    client.addStream('XBTUSD', 'trade', function(data, symbol, tableName) {
+        if (!data.length) return;
+        const quote = data[data.length - 1];
+
+        var aggrData = aggregateTrade(data)
+            //console.log(aggrData)
+
+        if (aggrData.size > settings.BitMEXTOS.sizeThreshold) {
+            BitMEXTOSData.push(aggrData)
+            if (BitMEXTOSData.length > settings.BitMEXTOS.tableLength) {
+                BitMEXTOSData.shift()
+            }
+        }
+    })
+
+    function aggregateTrade(data) {
+        var oldTS = ''
+        var oldDir = ''
+        var aggrData = {
+            size: 0,
+            direction: '',
+            timestamp: '',
+            cumulativePrice: 0,
+            averagePrice: 0,
+            numTrades: 0,
+            endPrice: 0,
+            slippage: 0
+        }
+        for (var i = data.length - 1; i != 0; i--) { // loop to add up all trades with the same timestamp and direction, iterating through data array backwards
+            if (data[i].timestamp != oldTS && oldTS != '') {
+                break
+            } // break if the timestamp has changed
+            if (data[i].side != oldDir && oldDir != '') {
+                break
+            } // break if the direction has changed
+            //console.log(data[i])
+
+            aggrData.size += data[i].size
+            aggrData.timestamp = data[i].timestamp
+            aggrData.direction = data[i].side
+            aggrData.cumulativePrice += (data[i].price * data[i].size)
+            aggrData.numTrades++
+                aggrData.endPrice = data[i].price
+            oldTS = data[i].timestamp
+            oldDir = data[i].side
+
+        }
+        aggrData.slippage = Math.abs(data[data.length - 1].price - aggrData.endPrice)
+        aggrData.averagePrice = (aggrData.cumulativePrice / aggrData.size).toFixed(2)
+        return (aggrData)
     };
 
-    this.heartBeat();
-  }
-
-  heartBeat() {
-    setInterval(() => {
-      if (this._ws.readyState === WebSocket.OPEN) {
-        this._ws.ping();
-        console.log("ping server");
-      }
-    }, 5000);
-  }
-
-  setHandler(method, callback) {
-    if (!this._handlers.has(method)) {
-      this._handlers.set(method, []);
-    }
-    this._handlers.get(method).push(callback);
-  }
-}
-
-binance.futuresGetDataStream().then(response => {
-  try{
-    const listenKey = response.listenKey
-    const socketApi = new SocketClient(`ws/${listenKey}`, 'wss://fstream.binance.com/');
-    socketApi.setHandler('executionReport', (params) => console.log(params));
-    socketApi.setHandler('outboundAccountInfo', (params) => console.log(params));
-  }catch(error){}
-  })
-
-function timeConverter(UNIX_timestamp){
-var a = new Date(UNIX_timestamp);
-var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-var year = a.getFullYear();
-var month = months[a.getMonth()];
-var date = a.getDate();
-var hour = a.getHours();
-var min = a.getMinutes();
-var sec = a.getSeconds();
-var time = hour + ':' + min + ':' + sec ;
-return time;
-}
-
-function timeConverterFunding(UNIX_timestamp){
-var a = new Date(UNIX_timestamp);
-var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-var year = a.getFullYear();
-var month = months[a.getMonth()];
-var date = a.getDate();
-var hour = a.getHours();
-var min = a.getMinutes();
-var sec = a.getSeconds();
-var time = hour + ':' + min +"0"  + ':' + sec +"0" ; 
-return time;
-}
-
-
-var BinanceTOSData = []
-var lastTrade
-const ws2 = new WebSocket('wss://fstream.binance.com/ws/btcusdt@trade');
-
-ws2.on('message', (data) => {
-  const trade = JSON.parse(data); // parsing single-trade record
-  lastTrade = {}
-  lastTrade.price = parseInt((trade.p)/consolidation)*consolidation
-  lastTrade.size = (trade.q)
-  //console.log(trade)
-
-  lastTrade.direction = (trade.m)
-  if ((Number(trade.q) * Number(trade.p)) > settings.BinanceTOS.sizeThreshold){
-    BinanceTOSData.push(JSON.parse(data))
-    if (BinanceTOSData.length > settings.BinanceTOS.tableLength){
-      BinanceTOSData.shift()
-    }
-  }
-});
-
-var BinanceLiquidationTOSData = []
-var lastLiq
-const ws3 = new WebSocket('wss://fstream.binance.com/ws/btcusdt@forceOrder');
-
-ws3.on('message', (data) => {
-  const liq = JSON.parse(data); // parsing single-trade record
-  lastLiq = {}
-  lastLiq.price = parseInt((liq.o.p)/consolidation)*consolidation
-  lastLiq.size = (liq.o.q)
-  console.log(liq.o)
-
-  lastLiq.direction = (liq.o.S)
-  if ((Number(liq.o.q) * Number(liq.o.p)) > settings.LiquidationTOS.sizeThreshold){
-    BinanceLiquidationTOSData.push(JSON.parse(data))
-    if (BinanceLiquidationTOSData.length > settings.LiquidationTOS.tableLength){
-      BinanceLiquidationTOSData.shift()
-    }
-  }
-  console.log(BinanceLiquidationTOSData)
-});
-  
-var startPrice
-var prices = {}
-
-
-var BinanceEntryPrice
-
-var MarkPrice
-
-async function getBinancePositionStats(){
-
-async function asyncCall() {
-    var response = ( await binance.futuresPositionRisk() );
-    //console.log(response)
-    Entry = (response.BTCUSDT.entryPrice)
-    BinanceEntryPrice = parseInt(Entry/consolidation)*consolidation
-    MarkPrice = Number(response.BTCUSDT.markPrice)
-    PNLP1 = Number(MarkPrice - BinanceEntryPrice).toFixed(1)
-  }
-asyncCall();//
-
-}setInterval(getBinancePositionStats,1000)
-
-
-function BinanceFBuy(price){
-    console.log(`\n\n${price}\n\n`)
-    async function asyncCall() {
-    console.info( await binance.futuresBuy( 'BTCUSDT', 0.001, price ) );
-
-
-    // expected output: 'resolved'
-  }
-
-  asyncCall();
-
-
-}
-
-function BinanceFSell(price){
-    console.log(`\n\n${price}\n\n`)
-    async function asyncCall() {
-    console.info( await binance.futuresSell( 'BTCUSDT', 0.001, price ) );
-    const result = await resolveAfter2Seconds();
-    console.log(result);
-
-    // expected output: 'resolved'
-
-  }
-
-  asyncCall();
-
-  function resolveAfter2Seconds() {
-      return new Promise(resolve => {
-      setTimeout(() => {
-          resolve('Complete!');
-      }, 0);
-      });
-  }
-}
-CallHighLow()
-var highLow = {}
-function CallHighLow(){
-    async function asyncCall() {
-    result = ( await binance.futuresCandles( "BTCUSDT", "1d" ) );
-   
-    highLow.high = parseInt((result[(result.length-1)][2])/consolidation)*consolidation
-    highLow.low = parseInt((result[(result.length-1)][3])/consolidation)*consolidation
-    //console.log(highLow);
-  }
-  asyncCall();
-
-}setInterval(CallHighLow, 60000)
-var limits = {}
-async function CallLimits(){
-    
-    result = await binance.futuresOpenOrders( "BTCUSDT"  );
-    //console.log(result)
-    limits = {}
-    for (var i in result){
-      result[i].price = parseInt(result[i].price/consolidation)*consolidation
-      limits[result[i].price] = {size: result[i].origQty, direction: result[i].side, id: result[i].orderId}
-    }
-    //console.log(limits)
-
-}setInterval(CallLimits, 1000)
-
-async function BinanceCancelOrder(id){
-  console.log(id)
-  console.info( await binance.futuresCancel( "BTCUSDT", {orderId: id} ) );
-  CallLimits()
-}
-
-
-// BitMEX TOS DATA
-var BitMEXTOSData = []
-client.addStream('XBTUSD', 'trade', function(data, symbol, tableName) {
-	if (!data.length) return;
-    const quote = data[data.length - 1];
-    
-    var aggrData = aggregateTrade(data)
-  //console.log(aggrData)
-
-  if (aggrData.size > settings.BitMEXTOS.sizeThreshold){
-    BitMEXTOSData.push(aggrData)
-    if (BitMEXTOSData.length > settings.BitMEXTOS.tableLength){
-      BitMEXTOSData.shift()
-    }
-  }
-})
-function aggregateTrade(data){
-  var oldTS = ''
-  var oldDir = ''
-  var aggrData = {size: 0,
-                direction: '',
-                timestamp: '',
-                cumulativePrice: 0,
-                averagePrice: 0,
-                numTrades : 0,
-                endPrice: 0,
-                slippage: 0}
-  for (var i = data.length-1; i != 0; i--){ // loop to add up all trades with the same timestamp and direction, iterating through data array backwards
-    if (data[i].timestamp != oldTS && oldTS != ''){break}   // break if the timestamp has changed
-    if (data[i].side != oldDir && oldDir != ''){break}      // break if the direction has changed
-    //console.log(data[i])
-    
-    aggrData.size += data[i].size
-    aggrData.timestamp = data[i].timestamp
-    aggrData.direction = data[i].side
-    aggrData.cumulativePrice += (data[i].price * data[i].size)
-    aggrData.numTrades ++
-    aggrData.endPrice = data[i].price
-    oldTS = data[i].timestamp
-    oldDir = data[i].side
-
-  }
-  aggrData.slippage = Math.abs(data[data.length-1].price - aggrData.endPrice)
-  aggrData.averagePrice = (aggrData.cumulativePrice / aggrData.size).toFixed(2)
-  return(aggrData)
-};
-
-//USER TRADES TABLE
-async function UserTrades(){
-  result = await binance.futuresUserTrades( "BTCUSDT" );
-  var userTradesTable = '<table>'
-    userTradesTable += `<tr id = "row00" > <th colspan="7"><img src="binance_futures.svg" width="10" height="10"> User Trades</th>`
-      userTradesTable += `<tr id = "row0" > <td>Time</td> <td>Symbol</td> <td>Side</td> <td>Price</td> <td>Qty</td> <td>rPNL</td> <td>Fee</td>`
-  //console.log(result)
-  for (var i = result.length-1; i > result.length-settings.UserTrades.amtTrades; i--){
-    if(result[i].side == "BUY"){
-    userTradesTable+= `<tr><td>${timeConverter(result[i].time)}</td><td>${result[i].symbol}</td><td style="background-color:green">${result[i].side}</td><td>${result[i].price}</td><td>${result[i].qty}</td><td>${Number(result[i].realizedPnl).toFixed(4)}</td><td>${Number(result[i].commission).toFixed(3)} ${result[i].commissionAsset}</td></tr>`
-    }else{
-    userTradesTable+= `<tr><td>${timeConverter(result[i].time)}</td><td>${result[i].symbol}</td><td style="background-color:red">${result[i].side}</td><td>${result[i].price}</td><td>${result[i].qty}</td><td>${Number(result[i].realizedPnl).toFixed(4)}</td><td>${Number(result[i].commission).toFixed(3)} ${result[i].commissionAsset}</td></tr>`
-    }
-  }
-  userTradesTable += '</table>'  
-  document.getElementById("userTradesTable").innerHTML = userTradesTable;
-}setInterval(UserTrades, 10000)
-
-
-
-//RISK LADDER
-async function GetRisk(){
-  // console.log(positionStats.assets.USDT.walletBalance)
-  //console.log(positionStats)
- entryPriceBTC = parseInt(parseInt(positionStats.positions.BTCUSDT.entryPrice) *settings.RiskLadder.consolidation )/settings.RiskLadder.consolidation
- consolidatedEntryPrice = parseInt(entryPriceBTC*settings.RiskLadder.consolidation)/settings.RiskLadder.consolidation
- currentPrice= parseInt(Number(lastTrade.price)*settings.RiskLadder.consolidation)/settings.RiskLadder.consolidation
- //console.log(positionStats.positions.BTCUSDT)
-
- // consolidate prices of all limits
-  //console.log(openOrders)
-  var openOrderBids = []
-  var openOrderAsks = []
-  for (var j in openOrders){
-    if (openOrders[j].side == "BUY"){
-      openOrderBids.push(parseInt((openOrders[j].price)*settings.RiskLadder.consolidation)/settings.RiskLadder.consolidation)
-    } else {
-      openOrderAsks.push(parseInt((openOrders[j].price)*settings.RiskLadder.consolidation)/settings.RiskLadder.consolidation)
-
-    }
-  }
-  
-
- sizeBTC = positionStats.positions.BTCUSDT.positionAmt
- var html = `<table border='1|1'>`;
-  html += `<tr id = "row00" > <th colspan="4"><img src="binance_futures.svg" width="10" height="10"> Risk Ladder${positionStats.positions.BTCUSDT.positionAmt > 0 ? " (Long)" : positionStats.positions.BTCUSDT.positionAmt<0 ? " (Short)": ""}  Consolidation: ${settings.RiskLadder.consolidation} </th>`
-  html += `<tr id = "row0" ><td>Label</td> <td>Price</td> <td>USD PNL</td><td>% PNL</td>`
-   
-    for (var i = Number(consolidatedEntryPrice) + settings.RiskLadder.priceRange; i > Number(consolidatedEntryPrice) - settings.RiskLadder.priceRange; i = i - settings.RiskLadder.consolidation) {
-
-      var pnl = ((i - entryPriceBTC)*sizeBTC).toFixed(2)
-
-      var colour
-      var id
-      var priceName
-      var text
-      if (i == consolidatedEntryPrice){
-        colour = settings.RiskLadder.entryPriceColour
-        id = "entry"
-        text = "Entry"
-        priceName = `${i} ${positionStats.positions.BTCUSDT.positionAmt > 0 ? "(L)" : positionStats.positions.BTCUSDT.positionAmt<0 ? "(S)": ""}`
-      } else if (i == currentPrice){
-        if ((Number(currentPrice) > Number(entryPriceBTC) && Number(positionStats.positions.BTCUSDT.positionAmt) > 0) ||(Number(currentPrice) < Number(entryPriceBTC) && Number(positionStats.positions.BTCUSDT.positionAmt) < 0)){
-          colour = "green"
-          id = "notEntry"
-          text = "Current"
-          priceName = i
-        }  else {
-          colour = "red"
-          id = "notEntry"
-          text = "Current"
-          priceName = i
-        } 
-      } else if (openOrderBids.includes(i)){
-          colour = settings.RiskLadder.bidColour
-          id = "notEntry"
-          text = positionStats.positions.BTCUSDT.positionAmt >= 0 ? "Add Bid" : "Exit Bid"
-          priceName = i
-      } else if (openOrderAsks.includes(i)){
-          colour = settings.RiskLadder.askColour
-          id = "notEntry"
-          text = positionStats.positions.BTCUSDT.positionAmt <= 0 ? "Add Ask" : "Exit Ask"
-          priceName = i
-      } else {
-          colour = "black"
-          id = "notEntry"
-          text = ""
-          priceName = i
-      }
-      html+=`<tr id = ${id}><td>${text}</td><td = "Orders"; style="background-color:${colour}; color:white">${priceName}</td><td style="background-color:${colour}; color:white">$${pnl}</td><td style="background-color:${colour}; color:white">${((pnl/Number(positionStats.assets.USDT.walletBalance))*100).toFixed(2)}%</td></tr>`
-    }
-    html+="</table>";
-    document.getElementById("riskTable").innerHTML = html;
-}setInterval(GetRisk, 1000)
-setTimeout(ScrollRiskLadder, 3000)
-function ScrollRiskLadder(){
-  var my_element = document.getElementById("entry");
-
-  my_element.scrollIntoView({
-    behavior: "smooth",
-    block: "center",
-    inline: "nearest"
-  });
-}
-
-
-
-//LEVERAGE GAUGE
-var Gauge = require("svg-gauge");
-
-// Create a new Gauge
-var LeverageGauge = Gauge(document.getElementById("LeverageGauge"), {
-	max: 100,
-
-    // custom label renderer
-    label: function(value) {
-      return (value).toFixed(2) +"x"
-    },
-    value: 0,
-    // Custom dial colors (Optional)
-    color: function(value) {
-      if(value > 25) {
-        return "red"; 
-      }else {
-        return "green"
-      }
-    }
-});
-
-//LEADERBOARD
-var Players= []
-async function leaderboard(){
-    var daily = await binance.futuresDaily()
-    for (var i in daily){
-      Players.push({name:daily[i].symbol, score:Number(daily[i].priceChangePercent), priceChange: Number(daily[i].priceChange), volume:  Number(daily[i].quoteVolume)})
-    }
-
-}leaderboard()
-
-// LEADERBOARD
-var wsLeaderboard = new WebSocket('wss://fstream.binance.com/stream?streams=!ticker@arr');
-wsLeaderboard.on('message', function incoming(data) {
-  var response = JSON.parse(data)
-  if (Players.length != 0){
-   
-    for (var i in response.data){
-      for (var j in Players){
-        if (response.data[i].s == Players[j].name){
-          Players[j].priceChange = response.data[i].p
-          Players[j].score = response.data[i].P
-          Players[j].volume = response.data[i].q
-          break 
+    //USER TRADES TABLE
+    async function UserTrades() {
+        result = await binance.futuresUserTrades("BTCUSDT");
+        var userTradesTable = '<table>'
+        userTradesTable += `<tr id = "row00" > <th colspan="7"><img src="binance_futures.svg" width="10" height="10"> User Trades</th>`
+        userTradesTable += `<tr id = "row0" > <td>Time</td> <td>Symbol</td> <td>Side</td> <td>Price</td> <td>Qty</td> <td>rPNL</td> <td>Fee</td>`
+            //console.log(result)
+        for (var i = result.length - 1; i > result.length - settings.UserTrades.amtTrades; i--) {
+            if (result[i].side == "BUY") {
+                userTradesTable += `<tr><td>${timeConverter(result[i].time)}</td><td>${result[i].symbol}</td><td style="background-color:green">${result[i].side}</td><td>${result[i].price}</td><td>${result[i].qty}</td><td>${Number(result[i].realizedPnl).toFixed(4)}</td><td>${Number(result[i].commission).toFixed(3)} ${result[i].commissionAsset}</td></tr>`
+            } else {
+                userTradesTable += `<tr><td>${timeConverter(result[i].time)}</td><td>${result[i].symbol}</td><td style="background-color:red">${result[i].side}</td><td>${result[i].price}</td><td>${result[i].qty}</td><td>${Number(result[i].realizedPnl).toFixed(4)}</td><td>${Number(result[i].commission).toFixed(3)} ${result[i].commissionAsset}</td></tr>`
+            }
         }
-      }
+        userTradesTable += '</table>'
+        document.getElementById("userTradesTable").innerHTML = userTradesTable;
     }
-  }
-})
-
-async function closePosition(ticker, currentSize){
-  console.log(ticker, currentSize)
-  if (Number(currentSize) > 0){
-    await binance.futuresMarketSell( ticker, Math.abs(currentSize), {reduceOnly: true} ) 
-  } else {
-    await binance.futuresMarketBuy( ticker, Math.abs(currentSize), {reduceOnly: true} ) 
-  }
+    setInterval(UserTrades, 10000)
 
 
-}
+
+    //RISK LADDER
+    async function GetRisk() {
+        // console.log(positionStats.assets.USDT.walletBalance)
+        //console.log(positionStats)
+        entryPriceBTC = parseInt(parseInt(positionStats.positions.BTCUSDT.entryPrice) * settings.RiskLadder.consolidation) / settings.RiskLadder.consolidation
+        consolidatedEntryPrice = parseInt(entryPriceBTC * settings.RiskLadder.consolidation) / settings.RiskLadder.consolidation
+        currentPrice = parseInt(Number(lastTrade.price) * settings.RiskLadder.consolidation) / settings.RiskLadder.consolidation
+            //console.log(positionStats.positions.BTCUSDT)
+
+        // consolidate prices of all limits
+        //console.log(openOrders)
+        var openOrderBids = []
+        var openOrderAsks = []
+        for (var j in openOrders) {
+            if (openOrders[j].side == "BUY") {
+                openOrderBids.push(parseInt((openOrders[j].price) * settings.RiskLadder.consolidation) / settings.RiskLadder.consolidation)
+            } else {
+                openOrderAsks.push(parseInt((openOrders[j].price) * settings.RiskLadder.consolidation) / settings.RiskLadder.consolidation)
+
+            }
+        }
 
 
-//RENDERING ALL DATA INTO HTML TABLES
-function RenderAccountTable(){
+        sizeBTC = positionStats.positions.BTCUSDT.positionAmt
+        var html = `<table border='1|1'>`;
+        html += `<tr id = "row00" > <th colspan="4"><img src="binance_futures.svg" width="10" height="10"> Risk Ladder${positionStats.positions.BTCUSDT.positionAmt > 0 ? " (Long)" : positionStats.positions.BTCUSDT.positionAmt<0 ? " (Short)": ""}  Consolidation: ${settings.RiskLadder.consolidation} </th>`
+        html += `<tr id = "row0" ><td>Label</td> <td>Price</td> <td>USD PNL</td><td>% PNL</td>`
 
-  // ACCOUNT TABLE
-  var accountTable = '<table>'
+        for (var i = Number(consolidatedEntryPrice) + settings.RiskLadder.priceRange; i > Number(consolidatedEntryPrice) - settings.RiskLadder.priceRange; i = i - settings.RiskLadder.consolidation) {
+
+            var pnl = ((i - entryPriceBTC) * sizeBTC).toFixed(2)
+
+            var colour
+            var id
+            var priceName
+            var text
+            if (i == consolidatedEntryPrice) {
+                colour = settings.RiskLadder.entryPriceColour
+                id = "entry"
+                text = "Entry"
+                priceName = `${i} ${positionStats.positions.BTCUSDT.positionAmt > 0 ? "(L)" : positionStats.positions.BTCUSDT.positionAmt<0 ? "(S)": ""}`
+            } else if (i == currentPrice) {
+                if ((Number(currentPrice) > Number(entryPriceBTC) && Number(positionStats.positions.BTCUSDT.positionAmt) > 0) || (Number(currentPrice) < Number(entryPriceBTC) && Number(positionStats.positions.BTCUSDT.positionAmt) < 0)) {
+                    colour = "green"
+                    id = "notEntry"
+                    text = "Current"
+                    priceName = i
+                } else {
+                    colour = "red"
+                    id = "notEntry"
+                    text = "Current"
+                    priceName = i
+                }
+            } else if (openOrderBids.includes(i)) {
+                colour = settings.RiskLadder.bidColour
+                id = "notEntry"
+                text = positionStats.positions.BTCUSDT.positionAmt >= 0 ? "Add Bid" : "Exit Bid"
+                priceName = i
+            } else if (openOrderAsks.includes(i)) {
+                colour = settings.RiskLadder.askColour
+                id = "notEntry"
+                text = positionStats.positions.BTCUSDT.positionAmt <= 0 ? "Add Ask" : "Exit Ask"
+                priceName = i
+            } else {
+                colour = "black"
+                id = "notEntry"
+                text = ""
+                priceName = i
+            }
+            html += `<tr id = ${id}><td>${text}</td><td = "Orders"; style="background-color:${colour}; color:white">${priceName}</td><td style="background-color:${colour}; color:white">$${pnl}</td><td style="background-color:${colour}; color:white">${((pnl/Number(positionStats.assets.USDT.walletBalance))*100).toFixed(2)}%</td></tr>`
+        }
+        html += "</table>";
+        document.getElementById("riskTable").innerHTML = html;
+    }
+    setInterval(GetRisk, 1000)
+    setTimeout(ScrollRiskLadder, 3000)
+
+    function ScrollRiskLadder() {
+        var my_element = document.getElementById("entry");
+
+        my_element.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "nearest"
+        });
+    }
+
+
+
+
+    //LEADERBOARD
+    var Players = []
+    async function leaderboard() {
+        var daily = await binance.futuresDaily()
+        for (var i in daily) {
+            Players.push({
+                name: daily[i].symbol,
+                score: Number(daily[i].priceChangePercent),
+                priceChange: Number(daily[i].priceChange),
+                volume: Number(daily[i].quoteVolume)
+            })
+        }
+
+    }
+    leaderboard()
+
+    // LEADERBOARD
+    var wsLeaderboard = new WebSocket('wss://fstream.binance.com/stream?streams=!ticker@arr');
+    wsLeaderboard.on('message', function incoming(data) {
+        var response = JSON.parse(data)
+        if (Players.length != 0) {
+
+            for (var i in response.data) {
+                for (var j in Players) {
+                    if (response.data[i].s == Players[j].name) {
+                        Players[j].priceChange = response.data[i].p
+                        Players[j].score = response.data[i].P
+                        Players[j].volume = response.data[i].q
+                        break
+                    }
+                }
+            }
+        }
+    })
+
+    async function closePosition(ticker, currentSize) {
+        console.log(ticker, currentSize)
+        if (Number(currentSize) > 0) {
+            await binance.futuresMarketSell(ticker, Math.abs(currentSize), {
+                reduceOnly: true
+            })
+        } else {
+            await binance.futuresMarketBuy(ticker, Math.abs(currentSize), {
+                reduceOnly: true
+            })
+        }
+
+
+    }
+
+
+    //RENDERING ALL DATA INTO HTML TABLES
+    function RenderAccountTable() {
+
+        // ACCOUNT TABLE
+        var accountTable = '<table>'
         accountTable += `<tr id = "row00" > <th colspan="1"><img src="binance_futures.svg" width="10" height="10"> Account Stats</th>`
 
-          accountTable += `<tr id = "row0" > <td>Fee Tier</td>`
-            var pnlColour
-            if(positionStats.totalUnrealizedProfit > 0){
-              pnlColour = "green"
+        accountTable += `<tr id = "row0" > <td>Fee Tier</td>`
+        var pnlColour
+        if (positionStats.totalUnrealizedProfit > 0) {
+            pnlColour = "green"
+        } else if (positionStats.totalUnrealizedProfit < 0) {
+            pnlColour = "red"
+        } else {
+            pnlColour = "black"
+        }
+
+        accountTable += `<tr><td>${positionStats.feeTier}</td></tr><tr><td>Wallet Balance</td></tr><tr><td>${Number(positionStats.totalWalletBalance).toFixed(2)} USDT</td></tr><tr><td>Margin Balance</td></tr><tr><td>${(Number(positionStats.marginBalance).toFixed(2))} USDT</td></tr><tr><td>Urealized Profit</td></tr><tr><td style="background-color:${pnlColour}">${Number(positionStats.totalUnrealizedProfit).toFixed(4)} USDT</td>`
+
+        accountTable += '</table>'
+
+        document.getElementById("accountTable").innerHTML = accountTable;
+    }
+    setInterval(RenderAccountTable, 250)
+
+    function RenderMarketWatch() {
+        // MARKET WATCH
+        var rows = '';
+
+        rows += `<tr id = "row00" > <th colspan="7"><img src="binance_futures.svg" width="10" height="10"> Market Watch</th>`
+        if (candles["BTCUSDT"] != undefined) {
+            rows += `<tr id = "row0" > <td>Symbol</td> <td>Mark</td> <td>Funding (${settings.marketWatch.fundingThreshold})</td><td>Hourly (${settings.marketWatch.thresholdHourly})%</td><td>6 Hourly (${settings.marketWatch.threshold6Hourly})%</td><td>Daily (${settings.marketWatch.thresholdDaily})%</td><td>Weekly (${settings.marketWatch.thresholdWeekly})%</td>`
+        } else {
+            rows += `<tr id = "row0" > <td>Symbol</td> <td>Mark</td> <td>Funding (${settings.marketWatch.fundingThreshold})</td><td>Hourly</td><td>6 Hourly</td><td>Daily</td><td>Weekly</td>`
+
+        }
+        var data = marketWatchData
+
+        for (var j in data) {
+            if (Object.keys(oldData).length > 0) {
+                var markColour
+                var markBackground
+                var fundingColour
+                var moveColour = {}
+                if (data[j].price > oldData[j].price) {
+                    markColour = settings.marketWatch.upTickColour
+                    markBackground = settings.marketWatch.upTickBackground
+                } else if (data[j].price < oldData[j].price) {
+                    markColour = settings.marketWatch.downTickColour
+                    markBackground = settings.marketWatch.downTickBackground
+                } else {
+                    markColour = "white"
+                    markBackground = "black"
+                }
+                if (Math.abs(data[j].fundingRate) > settings.marketWatch.fundingThreshold) {
+                    fundingColour = "purple"
+                } else {
+                    fundingColour = "black"
+                }
+
+                // Check move colour
+                if (candles["DOGEUSDT"] != undefined) {
+                    try {
+                        rows += `<tr id = "row${j}" > <td>${j}</td> <td style="background-color:${markBackground}; color:${markColour}; font-weight:normal;">${data[j].price}</td> <td style="background-color:${fundingColour}; color:white; font-weight:normal;">${data[j].fundingRate}%</td><td style="background-color:${Math.abs(candles[j].hourly) > settings.marketWatch.thresholdHourly ? "#FBBC05" : "black"};color:${candles[j].hourly > 0 ? "green" : "red"}">${candles[j].hourly}%</td><td style="background-color:${Math.abs(candles[j].sixHourly) > settings.marketWatch.threshold6Hourly ? "#FBBC05" : "black"};color:${candles[j].sixHourly > 0 ? "green" : "red"}">${candles[j].sixHourly}%</td><td style="background-color:${Math.abs(candles[j].daily) > settings.marketWatch.thresholdDaily ? "#FBBC05" : "black"};color:${candles[j].daily > 0 ? "green" : "red"}">${candles[j].daily}%</td><td style="background-color:${Math.abs(candles[j].weekly) > settings.marketWatch.thresholdWeekly ? "#FBBC05" : "black"};color:${candles[j].weekly > 0 ? "green" : "red"}">${candles[j].weekly}%</td>`
+                    } catch (e) {
+                        rows += `<tr id = "row${j}" > <td>${j}</td> <td style="background-color:${markBackground}; color:${markColour}; font-weight:normal;">${data[j].price}</td> <td style="background-color:${fundingColour}; color:white; font-weight:normal;">${data[j].fundingRate}%</td><td style="background-color:black; color:red; font-weight:normal;">N/A</td><td style="background-color:black; color:red; font-weight:normal;">N/A</td><td style="background-color:black; color:red; font-weight:normal;">N/A</td><td style="background-color:black; color:red; font-weight:normal;">N/A</td>`
+                    }
+
+                } else {
+                    rows += `<tr id = "row${j}" > <td>${j}</td> <td style="background-color:${markBackground}; color:${markColour}; font-weight:normal;">${data[j].price}</td> <td style="background-color:${fundingColour}; color:white; font-weight:normal;">${data[j].fundingRate}%</td>`
+                }
+
+
             }
-              else if(positionStats.totalUnrealizedProfit < 0){
-                pnlColour = "red"
-              } else {
-                pnlColour = "black"
-              }
-            
-          accountTable+= `<tr><td>${positionStats.feeTier}</td></tr><tr><td>Wallet Balance</td></tr><tr><td>${Number(positionStats.totalWalletBalance).toFixed(2)} USDT</td></tr><tr><td>Margin Balance</td></tr><tr><td>${(Number(positionStats.marginBalance).toFixed(2))} USDT</td></tr><tr><td>Urealized Profit</td></tr><tr><td style="background-color:${pnlColour}">${Number(positionStats.totalUnrealizedProfit).toFixed(4)} USDT</td>`
-          
-      accountTable += '</table>'  
-
-  document.getElementById("accountTable").innerHTML = accountTable;
-}setInterval(RenderAccountTable, 250)
-function RenderMarketWatch(){
-  // MARKET WATCH
-  var rows = '';
-  
-  rows += `<tr id = "row00" > <th colspan="7"><img src="binance_futures.svg" width="10" height="10"> Market Watch</th>`
-    if (candles["BTCUSDT"] != undefined){
-  rows += `<tr id = "row0" > <td>Symbol</td> <td>Mark</td> <td>Funding (${settings.marketWatch.fundingThreshold})</td><td>Hourly (${settings.marketWatch.thresholdHourly})%</td><td>6 Hourly (${settings.marketWatch.threshold6Hourly})%</td><td>Daily (${settings.marketWatch.thresholdDaily})%</td><td>Weekly (${settings.marketWatch.thresholdWeekly})%</td>`
-    }else {
-      rows += `<tr id = "row0" > <td>Symbol</td> <td>Mark</td> <td>Funding (${settings.marketWatch.fundingThreshold})</td><td>Hourly</td><td>6 Hourly</td><td>Daily</td><td>Weekly</td>`
-
+        }
+        //console.log(rows)
+        oldData = data
+        document.getElementById('table').innerHTML = rows;
     }
-    var data = marketWatchData
-  
-  for (var j in data){
-    if (Object.keys(oldData).length > 0){
-      var markColour
-      var markBackground
-      var fundingColour
-      var moveColour = {}
-      if (data[j].price > oldData[j].price){
-        markColour = settings.marketWatch.upTickColour
-        markBackground = settings.marketWatch.upTickBackground
-      } else if (data[j].price < oldData[j].price){
-        markColour = settings.marketWatch.downTickColour
-        markBackground = settings.marketWatch.downTickBackground
-      } else {
-        markColour = "white"
-        markBackground = "black"
-      }
-      if (Math.abs(data[j].fundingRate) > settings.marketWatch.fundingThreshold){
-        fundingColour = "purple"
-      } else {
-        fundingColour = "black"
-      }
-      
-      // Check move colour
-      if (candles["DOGEUSDT"] != undefined){
-        try{
-        rows += `<tr id = "row${j}" > <td>${j}</td> <td style="background-color:${markBackground}; color:${markColour}; font-weight:normal;">${data[j].price}</td> <td style="background-color:${fundingColour}; color:white; font-weight:normal;">${data[j].fundingRate}%</td><td style="background-color:${Math.abs(candles[j].hourly) > settings.marketWatch.thresholdHourly ? "#FBBC05" : "black"};color:${candles[j].hourly > 0 ? "green" : "red"}">${candles[j].hourly}%</td><td style="background-color:${Math.abs(candles[j].sixHourly) > settings.marketWatch.threshold6Hourly ? "#FBBC05" : "black"};color:${candles[j].sixHourly > 0 ? "green" : "red"}">${candles[j].sixHourly}%</td><td style="background-color:${Math.abs(candles[j].daily) > settings.marketWatch.thresholdDaily ? "#FBBC05" : "black"};color:${candles[j].daily > 0 ? "green" : "red"}">${candles[j].daily}%</td><td style="background-color:${Math.abs(candles[j].weekly) > settings.marketWatch.thresholdWeekly ? "#FBBC05" : "black"};color:${candles[j].weekly > 0 ? "green" : "red"}">${candles[j].weekly}%</td>`
-        }catch(e){
-        rows += `<tr id = "row${j}" > <td>${j}</td> <td style="background-color:${markBackground}; color:${markColour}; font-weight:normal;">${data[j].price}</td> <td style="background-color:${fundingColour}; color:white; font-weight:normal;">${data[j].fundingRate}%</td><td style="background-color:black; color:red; font-weight:normal;">N/A</td><td style="background-color:black; color:red; font-weight:normal;">N/A</td><td style="background-color:black; color:red; font-weight:normal;">N/A</td><td style="background-color:black; color:red; font-weight:normal;">N/A</td>`
-      }
+    setInterval(RenderMarketWatch, 250)
 
-      } else {
-        rows += `<tr id = "row${j}" > <td>${j}</td> <td style="background-color:${markBackground}; color:${markColour}; font-weight:normal;">${data[j].price}</td> <td style="background-color:${fundingColour}; color:white; font-weight:normal;">${data[j].fundingRate}%</td>`
-      }
-      
-    
+
+    function RenderLiquidationTOS() {
+        //BINANCE TOS
+        var BinanceLiquidationTOSTable = '<table>'
+            //console.log(BinanceLiquidationTOSData)
+        BinanceLiquidationTOSTable += `<tr id = "row00" > <th colspan="5"><img src="bitmex.svg" width="10" height="10"><img src="binance_futures.svg" width="10" height="10"> Liquidations</th>`
+        BinanceLiquidationTOSTable += `<tr id = "row0" > <td>Exchange</td> <td>Time</td> <td>Price</td> <td>Qty</td> <td>Tick</td>`
+        var oldLiq = undefined
+        for (var i = BinanceLiquidationTOSData.length - 1; i >= 0; i--) {
+
+            // Convert BTC size to USD
+            var size = parseInt(Number(BinanceLiquidationTOSData[i].o.q) * Number(BinanceLiquidationTOSData[i].o.p)).toLocaleString()
+            var normalSize = parseInt(Number(BinanceLiquidationTOSData[i].o.q) * Number(BinanceLiquidationTOSData[i].o.p))
+                // Find size colour:
+            var colour
+            if (normalSize > settings.LiquidationTOS.highlightThreshold3) {
+                colour = settings.LiquidationTOS.highlightThreshold3Colour
+            } else if (normalSize > settings.LiquidationTOS.highlightThreshold2) {
+                colour = settings.LiquidationTOS.highlightThreshold2Colour
+            } else if (normalSize > settings.LiquidationTOS.highlightThreshold1) {
+                colour = settings.LiquidationTOS.highlightThreshold1Colour
+            } else {
+                colour = "black"
+            }
+            //console.log(BinanceTOSData[i].q, colour)
+            // Find direction colour:
+            var directionColour
+            if (BinanceLiquidationTOSData[i].m) {
+                directionColour = `<td style="background-color:${colour}; color: ${settings.LiquidationTOS.downTickColour}">🡇</td>`
+            } else {
+                directionColour = `<td style="background-color:${colour}; color: ${settings.LiquidationTOS.upTickColour}">🡅</td>`
+            }
+
+            // Add data
+            BinanceLiquidationTOSTable += `<tr> <td><img src="binance_futures.svg" width="12" height="12"></td><td style="background-color:${colour}"> ${timeConverter(BinanceLiquidationTOSData[i].o.T)}</td><td style="background-color:${colour}"> ${BinanceLiquidationTOSData[i].o.p}</td><td style="background-color:${colour}"> ${size}</td>${directionColour}</tr>`
+
+
+            oldLiq = BinanceLiquidationTOSData[i].p
+        }
+
+        BinanceLiquidationTOSTable += '</table>'
+        document.getElementById("LiquidationTOS").innerHTML = BinanceLiquidationTOSTable;
     }
-  }
-  //console.log(rows)
-  oldData = data
-  document.getElementById( 'table' ).innerHTML = rows;
-  }setInterval(RenderMarketWatch, 250)
+    setInterval(RenderLiquidationTOS, 100)
 
 
-  function RenderLiquidationTOS(){
-  //BINANCE TOS
-  var BinanceLiquidationTOSTable = '<table>'
-  //console.log(BinanceLiquidationTOSData)
-  BinanceLiquidationTOSTable += `<tr id = "row00" > <th colspan="5"><img src="bitmex.svg" width="10" height="10"><img src="binance_futures.svg" width="10" height="10"> Liquidations</th>`
-  BinanceLiquidationTOSTable += `<tr id = "row0" > <td>Exchange</td> <td>Time</td> <td>Price</td> <td>Qty</td> <td>Tick</td>`
-  var oldLiq = undefined
-  for (var i = BinanceLiquidationTOSData.length-1; i>=0; i--){
 
-    // Convert BTC size to USD
-    var size = parseInt(Number(BinanceLiquidationTOSData[i].o.q) * Number(BinanceLiquidationTOSData[i].o.p)).toLocaleString() 
-    var normalSize =  parseInt(Number(BinanceLiquidationTOSData[i].o.q) * Number(BinanceLiquidationTOSData[i].o.p))
-    // Find size colour:
-    var colour
-    if (normalSize > settings.LiquidationTOS.highlightThreshold3){
-      colour = settings.LiquidationTOS.highlightThreshold3Colour
-    } else if (normalSize > settings.LiquidationTOS.highlightThreshold2){
-      colour = settings.LiquidationTOS.highlightThreshold2Colour
-    } else if (normalSize > settings.LiquidationTOS.highlightThreshold1){
-      colour = settings.LiquidationTOS.highlightThreshold1Colour
-    } else {
-      colour = "black"
+    function RenderBinanceTOS() {
+        //BINANCE TOS
+        var BinanceTOSTable = '<table>'
+            //console.log(BinanceTOSData)
+        BinanceTOSTable += `<tr id = "row00" > <th colspan="4"><img src="binance_futures.svg" width="10" height="10"> TOS</th>`
+        BinanceTOSTable += `<tr id = "row0" > <td>Time</td> <td>Price</td> <td>Qty</td> <td>Tick</td>`
+        var oldPrice = undefined
+        for (var i = BinanceTOSData.length - 1; i >= 0; i--) {
+
+            // Convert BTC size to USD
+            var size = parseInt(Number(BinanceTOSData[i].q) * Number(BinanceTOSData[i].p)).toLocaleString()
+            var normalSize = parseInt(Number(BinanceTOSData[i].q) * Number(BinanceTOSData[i].p))
+                // Find size colour:
+            var colour
+            if (normalSize > settings.BinanceTOS.highlightThreshold3) {
+                colour = settings.BinanceTOS.highlightThreshold3Colour
+            } else if (normalSize > settings.BinanceTOS.highlightThreshold2) {
+                colour = settings.BinanceTOS.highlightThreshold2Colour
+            } else if (normalSize > settings.BinanceTOS.highlightThreshold1) {
+                colour = settings.BinanceTOS.highlightThreshold1Colour
+            } else {
+                colour = "black"
+            }
+            //console.log(BinanceTOSData[i].q, colour)
+            // Find direction colour:
+            var directionColour
+            if (BinanceTOSData[i].m) {
+                directionColour = `<td style="background-color:${colour}; color: ${settings.BinanceTOS.downTickColour}">🡇</td>`
+            } else {
+                directionColour = `<td style="background-color:${colour}; color: ${settings.BinanceTOS.upTickColour}">🡅</td>`
+            }
+
+            // Add data
+            BinanceTOSTable += `<tr> <td style="background-color:${colour}">${timeConverter(BinanceTOSData[i].E)}</td><td style="background-color:${colour}"> ${BinanceTOSData[i].p}</td><td style="background-color:${colour}"> ${size}</td>${directionColour}</tr>`
+
+
+            oldPrice = BinanceTOSData[i].p
+        }
+
+        BinanceTOSTable += '</table>'
+        document.getElementById("BinanceTOS").innerHTML = BinanceTOSTable;
     }
-    //console.log(BinanceTOSData[i].q, colour)
-    // Find direction colour:
-    var directionColour
-    if (BinanceLiquidationTOSData[i].m){
-      directionColour = `<td style="background-color:${colour}; color: ${settings.LiquidationTOS.downTickColour}">🡇</td>`
-    } else {
-      directionColour = `<td style="background-color:${colour}; color: ${settings.LiquidationTOS.upTickColour}">🡅</td>`
-    }  
-  
-    // Add data
-    BinanceLiquidationTOSTable += `<tr> <td><img src="binance_futures.svg" width="12" height="12"></td><td style="background-color:${colour}"> ${timeConverter(BinanceLiquidationTOSData[i].o.T)}</td><td style="background-color:${colour}"> ${BinanceLiquidationTOSData[i].o.p}</td><td style="background-color:${colour}"> ${size}</td>${directionColour}</tr>`
-  
+    setInterval(RenderBinanceTOS, 100)
 
-    oldLiq = BinanceLiquidationTOSData[i].p 
-  }
-  
-  BinanceLiquidationTOSTable += '</table>'
-  document.getElementById("LiquidationTOS").innerHTML = BinanceLiquidationTOSTable;
-  }setInterval(RenderLiquidationTOS, 100)
+    //BITMEX TOS
+    function RenderBitmexTOS() {
+        var BitMEXTOSTable = '<table>'
+            //console.log(BinanceTOSData)
 
+        BitMEXTOSTable += `<tr id = "row00" > <th colspan="5"><img src="bitmex.svg" width="10" height="10"> TOS</th>`
+        BitMEXTOSTable += `<tr id = "row0" > <td>Time</td> <td>Price</td> <td>Qty</td> <td>Tick</td><td>Slippage</td>`
+        var oldPrice = undefined
+        for (var i = BitMEXTOSData.length - 1; i >= 0; i--) {
 
+            // // Find size colour first:
+            var colour
+            if (Number(BitMEXTOSData[i].size) > settings.BitMEXTOS.highlightThreshold3) {
+                colour = settings.BitMEXTOS.highlightThreshold3Colour
+            } else if (Number(BitMEXTOSData[i].size) > settings.BitMEXTOS.highlightThreshold2) {
+                colour = settings.BitMEXTOS.highlightThreshold2Colour
+            } else if (Number(BitMEXTOSData[i].size) > settings.BitMEXTOS.highlightThreshold1) {
+                colour = settings.BitMEXTOS.highlightThreshold1Colour
+            } else {
+                colour = "black"
+            }
+            //console.log(BinanceTOSData[i].q, colour)
+            // // Find direction colour:
+            var directionColour
+            if (BitMEXTOSData[i].direction == 'Sell') {
+                directionColour = `<td style="background-color:${colour}; color: ${settings.BitMEXTOS.downTickColour}">🡇</td>`
+            } else {
+                directionColour = `<td style="background-color:${colour}; color: ${settings.BitMEXTOS.upTickColour}">🡅</td>`
+            }
 
-  function RenderBinanceTOS(){
-  //BINANCE TOS
-  var BinanceTOSTable = '<table>'
-  //console.log(BinanceTOSData)
-  BinanceTOSTable += `<tr id = "row00" > <th colspan="4"><img src="binance_futures.svg" width="10" height="10"> TOS</th>`
-  BinanceTOSTable += `<tr id = "row0" > <td>Time</td> <td>Price</td> <td>Qty</td> <td>Tick</td>`
-  var oldPrice = undefined
-  for (var i = BinanceTOSData.length-1; i>=0; i--){
+            // Add data
+            BitMEXTOSTable += `<tr><td style="background-color:${colour}"> ${timeConverter(new Date(BitMEXTOSData[i].timestamp))}</td><td style="background-color:${colour}"> ${BitMEXTOSData[i].averagePrice}</td><td style="background-color:${colour}"> ${(BitMEXTOSData[i].size).toLocaleString()}</td>${directionColour}<td style="background-color:${colour}">${BitMEXTOSData[i].slippage}</td></tr>`
+        }
 
-    // Convert BTC size to USD
-    var size = parseInt(Number(BinanceTOSData[i].q) * Number(BinanceTOSData[i].p)).toLocaleString() 
-    var normalSize =  parseInt(Number(BinanceTOSData[i].q) * Number(BinanceTOSData[i].p))
-    // Find size colour:
-    var colour
-    if (normalSize > settings.BinanceTOS.highlightThreshold3){
-      colour = settings.BinanceTOS.highlightThreshold3Colour
-    } else if (normalSize > settings.BinanceTOS.highlightThreshold2){
-      colour = settings.BinanceTOS.highlightThreshold2Colour
-    } else if (normalSize > settings.BinanceTOS.highlightThreshold1){
-      colour = settings.BinanceTOS.highlightThreshold1Colour
-    } else {
-      colour = "black"
+        BitMEXTOSTable += '</table>'
+        document.getElementById("BitmexTOS").innerHTML = BitMEXTOSTable;
     }
-    //console.log(BinanceTOSData[i].q, colour)
-    // Find direction colour:
-    var directionColour
-    if (BinanceTOSData[i].m){
-      directionColour = `<td style="background-color:${colour}; color: ${settings.BinanceTOS.downTickColour}">🡇</td>`
-    } else {
-      directionColour = `<td style="background-color:${colour}; color: ${settings.BinanceTOS.upTickColour}">🡅</td>`
-    }  
-  
-    // Add data
-    BinanceTOSTable += `<tr> <td style="background-color:${colour}">${timeConverter(BinanceTOSData[i].E)}</td><td style="background-color:${colour}"> ${BinanceTOSData[i].p}</td><td style="background-color:${colour}"> ${size}</td>${directionColour}</tr>`
-  
+    setInterval(RenderBitmexTOS, 100)
 
-    oldPrice = BinanceTOSData[i].p 
-  }
-  
-  BinanceTOSTable += '</table>'
-  document.getElementById("BinanceTOS").innerHTML = BinanceTOSTable;
-  }setInterval(RenderBinanceTOS, 100)
+    //OPEN ORDERS
+    function RenderOpenOrders() {
+        currentOpenOrderAmt = (Object.keys(openOrders).length)
+        var userOrdersTable = '<table>'
+        userOrdersTable += `<tr id = "row00" > <th colspan="6"><img src="binance_futures.svg" width="10" height="10"> Open Orders: ${currentOpenOrderAmt}</th>`
+        userOrdersTable += `<tr id = "row0" > <td>Time</td> <td>Symbol</td> <td>Side</td> <td>Price</td> <td>Qty</td> <td>rOnly</td>`
 
-  //BITMEX TOS
-  function RenderBitmexTOS(){
-  var BitMEXTOSTable = '<table>'
-  //console.log(BinanceTOSData)
-
-  BitMEXTOSTable += `<tr id = "row00" > <th colspan="5"><img src="bitmex.svg" width="10" height="10"> TOS</th>`
-    BitMEXTOSTable += `<tr id = "row0" > <td>Time</td> <td>Price</td> <td>Qty</td> <td>Tick</td><td>Slippage</td>`
-  var oldPrice = undefined
-  for (var i = BitMEXTOSData.length-1; i>=0; i--){
-
-    // // Find size colour first:
-    var colour 
-    if (Number(BitMEXTOSData[i].size) > settings.BitMEXTOS.highlightThreshold3){
-      colour = settings.BitMEXTOS.highlightThreshold3Colour
-    } else if (Number(BitMEXTOSData[i].size) > settings.BitMEXTOS.highlightThreshold2){
-      colour = settings.BitMEXTOS.highlightThreshold2Colour
-    } else if (Number(BitMEXTOSData[i].size) > settings.BitMEXTOS.highlightThreshold1){
-      colour = settings.BitMEXTOS.highlightThreshold1Colour
-    } else {
-      colour = "black"
+        for (var i in openOrders) {
+            if (openOrders[i].side == "BUY") {
+                userOrdersTable += `<tr><td>${timeConverter(openOrders[i].time)}</td><td>${openOrders[i].symbol}</td><td style="background-color:green">${openOrders[i].side}</td><td>${openOrders[i].price}</td><td>${openOrders[i].origQty}</td><td>${openOrders[i].reduceOnly}</td></tr>`
+            } else {
+                userOrdersTable += `<tr><td>${timeConverter(openOrders[i].time)}</td><td>${openOrders[i].symbol}</td><td style="background-color:red">${openOrders[i].side}</td><td>${openOrders[i].price}</td><td>${openOrders[i].origQty}</td><td>${openOrders[i].reduceOnly}</td></tr>`
+            }
+        }
+        userOrdersTable += '</table>'
+        document.getElementById("userOrdersTable").innerHTML = userOrdersTable;
     }
-    //console.log(BinanceTOSData[i].q, colour)
-    // // Find direction colour:
-    var directionColour
-    if (BitMEXTOSData[i].direction == 'Sell'){
-      directionColour = `<td style="background-color:${colour}; color: ${settings.BitMEXTOS.downTickColour}">🡇</td>`
-    } else {
-      directionColour = `<td style="background-color:${colour}; color: ${settings.BitMEXTOS.upTickColour}">🡅</td>`
-    }  
-    
-    // Add data
-    BitMEXTOSTable += `<tr><td style="background-color:${colour}"> ${timeConverter(new Date(BitMEXTOSData[i].timestamp))}</td><td style="background-color:${colour}"> ${BitMEXTOSData[i].averagePrice}</td><td style="background-color:${colour}"> ${(BitMEXTOSData[i].size).toLocaleString()}</td>${directionColour}<td style="background-color:${colour}">${BitMEXTOSData[i].slippage}</td></tr>`
-  }
-  
-  BitMEXTOSTable += '</table>'
-  document.getElementById("BitmexTOS").innerHTML = BitMEXTOSTable;
-  }setInterval(RenderBitmexTOS, 100)
-  
-  //OPEN ORDERS
-  function RenderOpenOrders(){
-  currentOpenOrderAmt = (Object.keys(openOrders).length)
-  var userOrdersTable = '<table>'
-    userOrdersTable += `<tr id = "row00" > <th colspan="6"><img src="binance_futures.svg" width="10" height="10"> Open Orders: ${currentOpenOrderAmt}</th>`
-      userOrdersTable += `<tr id = "row0" > <td>Time</td> <td>Symbol</td> <td>Side</td> <td>Price</td> <td>Qty</td> <td>rOnly</td>`
-      
-      for (var i in openOrders){
-      if(openOrders[i].side == "BUY"){
-        userOrdersTable+= `<tr><td>${timeConverter(openOrders[i].time)}</td><td>${openOrders[i].symbol}</td><td style="background-color:green">${openOrders[i].side}</td><td>${openOrders[i].price}</td><td>${openOrders[i].origQty}</td><td>${openOrders[i].reduceOnly}</td></tr>`
-      }else{
-        userOrdersTable+= `<tr><td>${timeConverter(openOrders[i].time)}</td><td>${openOrders[i].symbol}</td><td style="background-color:red">${openOrders[i].side}</td><td>${openOrders[i].price}</td><td>${openOrders[i].origQty}</td><td>${openOrders[i].reduceOnly}</td></tr>`
-      }
-    }
-    userOrdersTable += '</table>'  
-    document.getElementById("userOrdersTable").innerHTML = userOrdersTable;
-  }setInterval(RenderOpenOrders, 250)
+    setInterval(RenderOpenOrders, 250)
 
-  //POSITION STATS
-  async function RenderPositionStats(){
-      // Set gauge value
-      LeverageGauge.setValueAnimated((account.assets[1].positionInitialMargin/account.assets[1].marginBalance)*125, 2);
-      
-      
-      var counter = 0
-        for (var x in positionStats.positions){
-          if (Number(positionStats.positions[x].positionAmt) != 0){
-            counter++
-          }
+    //POSITION STATS
+    async function RenderPositionStats() {
+        // Set gauge value
+
+
+
+        var counter = 0
+        for (var x in positionStats.positions) {
+            if (Number(positionStats.positions[x].positionAmt) != 0) {
+                counter++
+            }
         }
         var positions1 = '';
-      positions1 += `<tr id = "row01" > <th colspan="8"><img src="binance_futures.svg" width="10" height="10"> Open Positions: ${counter}</th>`
-      positions1 += `<tr id = "row0" > <td>Ticker</td> <td>Size</td> <td>Entry Price</td><td>Mark Price</td><td>Liquidation Price</td><td>Initial Margin</td><td>Maintenance Margin</td><td>Close Position</td>`
-        
-      for (var x in positionStats.positions){
-        if (Number(positionStats.positions[x].positionAmt) != 0){
-         positions1 += `<tr id = "row${x}" > <td>${x}</td> <td>${positionStats.positions[x].positionAmt}</td> <td>${Number(positionStats.positions[x].entryPrice).toFixed(2)}</td><td>${Number(positionStats.positions[x].markPrice).toFixed(2)}</td><td>${positionStats.positions[x].liquidationPrice}</td><td>${positionStats.positions[x].initialMargin}</td><td>${positionStats.positions[x].maintMargin}</td><td onclick="closePosition('${String(x)}', '${(positionStats.positions[x].positionAmt)}')">X</td>`
-        }
-        }
-    document.getElementById( 'positions' ).innerHTML = positions1;
-  }RenderPositionStats()
-  setInterval(RenderPositionStats, 250)
+        positions1 += `<tr id = "row01" > <th colspan="8"><img src="binance_futures.svg" width="10" height="10"> Open Positions: ${counter}</th>`
+        positions1 += `<tr id = "row0" > <td>Ticker</td> <td>Size</td> <td>Entry Price</td><td>Mark Price</td><td>Liquidation Price</td><td>Initial Margin</td><td>Maintenance Margin</td><td>Close Position</td>`
 
-  //LEADERBOARD
-  var ranking = {}
-  var oldRanking = {}
-  function RenderLeaderboard() {
-        let theExport = ""; 
+        for (var x in positionStats.positions) {
+            if (Number(positionStats.positions[x].positionAmt) != 0) {
+                positions1 += `<tr id = "row${x}" > <td>${x}</td> <td>${positionStats.positions[x].positionAmt}</td> <td>${Number(positionStats.positions[x].entryPrice).toFixed(2)}</td><td>${Number(positionStats.positions[x].markPrice).toFixed(2)}</td><td>${Number(positionStats.positions[x].liquidationPrice).toFixed(2)}</td><td>${Number(positionStats.positions[x].initialMargin).toFixed(2)}</td><td>${Number(positionStats.positions[x].maintMargin).toFixed(2)}</td><td onclick="closePosition('${String(x)}', '${(positionStats.positions[x].positionAmt)}')">X</td>`
+            }
+        }
+        document.getElementById('positions').innerHTML = positions1;
+    }
+    RenderPositionStats()
+    setInterval(RenderPositionStats, 250)
+
+    //LEADERBOARD
+    var ranking = {}
+    var oldRanking = {}
+
+    function RenderLeaderboard() {
+        let theExport = "";
         Players.sort((aPlayer, bPlayer) => Math.abs(bPlayer.score) - Math.abs(aPlayer.score));
         ranking = {}
-        for (var i in Players){
-          ranking[Players[i].name] = i
+        for (var i in Players) {
+            ranking[Players[i].name] = i
         }
         //console.log(ranking, oldRanking)
-        if (typeof Players != undefined){
-          for (var j in Players){
-            player = Players[j]
-            
-            var color
-            if (ranking[player.name] > oldRanking[player.name]){
-              color = "red"
-            } else if (ranking[player.name] < oldRanking[player.name]){
-              color = "green"
-            } else {
-              color = "white"
+        if (typeof Players != undefined) {
+            for (var j in Players) {
+                player = Players[j]
+
+                var color
+                if (ranking[player.name] > oldRanking[player.name]) {
+                    color = "red"
+                } else if (ranking[player.name] < oldRanking[player.name]) {
+                    color = "green"
+                } else {
+                    color = "white"
+                }
+                //console.log(ranking[player.name] , oldRanking[player.name], color)
+                theExport += `<tr><td style="color:${color}">${player.name}</td><td style= "color:${color}">${player.score}</td><td  style= "text-align: left; color:${color}">${player.priceChange}</td><td  style= "text-align: left; color:${color}">${parseInt(player.volume).toLocaleString()}</td></tr>`
             }
-            //console.log(ranking[player.name] , oldRanking[player.name], color)
-            theExport += `<tr><td style="color:${color}">${player.name}</td><td style= "color:${color}">${player.score}</td><td  style= "text-align: left; color:${color}">${player.priceChange}</td><td  style= "text-align: left; color:${color}">${parseInt(player.volume).toLocaleString()}</td></tr>`
-          }
         }
-        document.getElementById("leaderboard").innerHTML = theExport; 
+        document.getElementById("leaderboard").innerHTML = theExport;
         oldRanking = ranking
-  }setInterval(RenderLeaderboard, 500)
-  RenderLeaderboard(); 
+    }
+    setInterval(RenderLeaderboard, 500)
+    RenderLeaderboard();
 </script>
 
 
 
 <!DOCTYPE html>
 <html>
+
 <head>
-  <style>
-
-  rect.selected {
-    stroke: green;
-    stroke-width: 2px;
-  }
-  .axis .domain {
-    display: none;
-    fill: #ffffff;
-    font-family: 'Open Sans', sans-serif;
-  }
-  .axis .tick text.selected {
-    font-weight: bold;
-    font-size: 1.2em;
-    fill: #47ff63;
-    font-family: 'Open Sans', sans-serif;
-  }
-  .axis .tick line.selected {
-    stroke: #47ff63;  
-  }
-  .tip {
-    position: absolute;
-    font-size: .8em;
-    text-align: justify;
-    font-weight: bolder;
-    display: table; /* keep the background color wrapped tight */
-    margin: 0px auto 0px auto; /* keep the table centered */
-    padding:2.5px;font-size:15px;background-color:#2F6183;color:#ffffff;
-    font-family: 'Open Sans', sans-serif;
-  }    
-
-  #legend {
-    margin-bottom: 10px;
-  }
-  #legend text {
-    font-size: .8em;
-    fill: #47ff63;
-    font-family: 'Open Sans', sans-serif;
-  }
-  </style>
-</head>
-<body>
-  
-  
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-  <script src="https://unpkg.com/jeezy@1.12.11/lib/jeezy.min.js"></script>
-  <script src="https://unpkg.com/data2grid@1.0.0/build/data2grid.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.5/chroma.min.js"></script>
-  <script>
-  
-  d3.select("body").append("div").attr("class", "tip").style("display", "none");
-
-
-main()
-
-async function main(){
-    var tickers = await binance.futuresPrices() ;
-    //console.log(tickers)
-    var symbols = Object.keys(tickers)
-    //console.log(symbols)
-    var symbols = ["BTCUSDT","ETHUSDT", "BCHUSDT", "XRPUSDT", "EOSUSDT", "LTCUSDT", "TRXUSDT", "ETCUSDT", "LINKUSDT", "XLMUSDT", "ADAUSDT", "XMRUSDT", "DASHUSDT", "ZECUSDT", "XTZUSDT", "BNBUSDT", "ATOMUSDT", "ONTUSDT", "IOTAUSDT", "BATUSDT", "VETUSDT", "NEOUSDT", "QTUMUSDT", "IOSTUSDT", "THETAUSDT", "ALGOUSDT", "ZILUSDT", "KNCUSDT", "ZRXUSDT",  "OMGUSDT", "DOGEUSDT"]
-    //console.log(`Loaded ${symbols.length} pairs`)
-    var candles = {}
-    for (var i in symbols) {
-        var coinName = symbols[i].slice(0,-4)
-        //console.log(`Collecting ${symbols[i]} data`)
-        response = await binance.futuresCandles( symbols[i], settings.CorrelationMatrix.timeframe ) ;
-        //console.log(response)
-        var closeValues = []
-        for (var j in response){
-            closeValues.push(Number(response[j][4]))
+    <style>
+        rect.selected {
+            stroke: green;
+            stroke-width: 2px;
         }
-        candles[coinName] = closeValues
         
-    }
-    
-    var symbolPairings = (pairwise(symbols))
-    //console.log(symbolPairings)
-    symbolPairings.forEach(i => {
-        //console.log(candles[i[0]], candles[i[1]])
-        //pearsonsCorrelation(candles[i[0]], candles[i[1]], i[0], i[1])
-    })
-    //console.log(correlationData)
-    draw(candles)
-    
-}setInterval(main, 600000)
+        .axis .domain {
+            display: none;
+            fill: #ffffff;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        .axis .tick text.selected {
+            font-weight: bold;
+            font-size: 1.2em;
+            fill: #47ff63;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        .axis .tick line.selected {
+            stroke: #47ff63;
+        }
+        
+        .tip {
+            position: absolute;
+            font-size: .8em;
+            text-align: justify;
+            font-weight: bolder;
+            display: table;
+            /* keep the background color wrapped tight */
+            margin: 0px auto 0px auto;
+            /* keep the table centered */
+            padding: 2.5px;
+            font-size: 15px;
+            background-color: #2F6183;
+            color: #ffffff;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        #legend {
+            margin-bottom: 10px;
+        }
+        
+        #legend text {
+            font-size: .8em;
+            fill: #47ff63;
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
 
 
-function pairwise(list) {
-    if (list.length < 2) { return []; }
-    var first = list[0],
-        rest  = list.slice(1),
-        pairs = rest.map(function (x) { return [first, x]; });
-    return pairs.concat(pairwise(rest));
-  }
-var correlationData = []
-function draw(candles){
-  var data = [];
-  var cols = Object.keys(candles)
-  for (var i = 0; i < candles["BTC"].length; i++){
-    var obj = {index: i};
-    cols.forEach(col => {
-      obj[col] = candles[col][i];
-    });
-    data.push(obj);
-    
-  }
-  //console.log(data)
-  var corr = jz.arr.correlationMatrix(data, cols);
-  var extent = d3.extent(corr.map(function(d){ return d.correlation; }).filter(function(d){ return d !== 1; }));
-
-  var grid = data2grid.grid(corr);
-  var rows = d3.max(grid, function(d){ return d.row; });
-
-  var margin = {top: 35, bottom: 5, left: 55, right: 1};
-
-  var dim = 485;
-
-  var width = dim, height = dim;
-
-  var svg = d3.select("#grid").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", "translate(" + margin.left + ", " + margin.top + ")")
-      
-  var padding = .1;
-
-  var x = d3.scaleBand()
-    .range([0, width])
-    .paddingInner(padding)
-    .domain(d3.range(1, rows + 1))
-  
-
-  var y = d3.scaleBand()
-    .range([0, height])
-    .paddingInner(padding)
-    .domain(d3.range(1, rows + 1))
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://unpkg.com/jeezy@1.12.11/lib/jeezy.min.js"></script>
+    <script src="https://unpkg.com/data2grid@1.0.0/build/data2grid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.5/chroma.min.js"></script>
+    <script>
+        d3.select("body").append("div").attr("class", "tip").style("display", "none");
 
 
-  var c = chroma.scale(["tomato", "white", "steelblue"])
-    .domain([extent[0], 0, extent[1]]);
+        main()
 
-  var x_axis = d3.axisTop(y).tickFormat(function(d, i){ return cols[i]; });
+        async function main() {
+            var tickers = await binance.futuresPrices();
+            //console.log(tickers)
+            var symbols = Object.keys(tickers)
+                //console.log(symbols)
+            var symbols = ["BTCUSDT", "ETHUSDT", "BCHUSDT", "XRPUSDT", "EOSUSDT", "LTCUSDT", "TRXUSDT", "ETCUSDT", "LINKUSDT", "XLMUSDT", "ADAUSDT", "XMRUSDT", "DASHUSDT", "ZECUSDT", "XTZUSDT", "BNBUSDT", "ATOMUSDT", "ONTUSDT", "IOTAUSDT", "BATUSDT", "VETUSDT", "NEOUSDT", "QTUMUSDT", "IOSTUSDT", "THETAUSDT", "ALGOUSDT", "ZILUSDT", "KNCUSDT", "ZRXUSDT", "OMGUSDT", "DOGEUSDT"]
+                //console.log(`Loaded ${symbols.length} pairs`)
+            var candles = {}
+            for (var i in symbols) {
+                var coinName = symbols[i].slice(0, -4)
+                    //console.log(`Collecting ${symbols[i]} data`)
+                response = await binance.futuresCandles(symbols[i], settings.CorrelationMatrix.timeframe);
+                //console.log(response)
+                var closeValues = []
+                for (var j in response) {
+                    closeValues.push(Number(response[j][4]))
+                }
+                candles[coinName] = closeValues
 
-  var y_axis = d3.axisLeft(x).tickFormat(function(d, i){ return cols[i]; });
+            }
 
-  svg.append("g")
-  .attr("transform", "translate(-15,-20)")
-      .attr("class", "x axis")
-      .call(x_axis)
-      .selectAll("text")
-        .attr("transform", "rotate(90)");
+            var symbolPairings = (pairwise(symbols))
+                //console.log(symbolPairings)
+            symbolPairings.forEach(i => {
+                    //console.log(candles[i[0]], candles[i[1]])
+                    //pearsonsCorrelation(candles[i[0]], candles[i[1]], i[0], i[1])
+                })
+                //console.log(correlationData)
+            draw(candles)
 
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(y_axis)
-      
-
-  svg.selectAll("rect")
-      .data(grid, function(d){ return d.column_a + d.column_b; })
-    .enter().append("rect")
-      .attr("x", function(d){ return x(d.column); })
-      .attr("y", function(d){ return y(d.row); })
-      .attr("width", x.bandwidth())
-      .attr("height", y.bandwidth())
-      .style("fill", function(d){ return c(d.correlation); })
-      .style("opacity", 1e-6)
-    .transition()
-      .style("opacity", 1);
-
-  svg.selectAll("rect")
-
-  d3.selectAll("rect")
-    .on("mouseover", function(d){
-
-      d3.select(this).classed("selected", true);
-
-      d3.select(".tip")
-          .style("display", "block")
-          .html(d.column_x + ", " + d.column_y + ": " + d.correlation.toFixed(2));
-
-      var row_pos = y(d.row);
-      var col_pos = x(d.column);
-      var tip_pos = d3.select(".tip").node().getBoundingClientRect();
-      var tip_width = tip_pos.width;
-      var tip_height = tip_pos.height;
-      var grid_pos = d3.select("#grid").node().getBoundingClientRect();
-      var grid_left = grid_pos.left;
-      var grid_top = grid_pos.top;
-
-      var left = grid_left + col_pos + margin.left + (x.bandwidth() / 2) - (tip_width / 2);
-      var top = grid_top + row_pos + margin.top - tip_height - 5;
-
-      d3.select(".tip")
-          .style("left", left + "px")
-          .style("top", top + "px");
-
-      d3.select(".x.axis .tick:nth-of-type(" + d.column + ") text").classed("selected", true);
-      d3.select(".y.axis .tick:nth-of-type(" + d.row + ") text").classed("selected", true);
-      d3.select(".x.axis .tick:nth-of-type(" + d.column + ") line").classed("selected", true);
-      d3.select(".y.axis .tick:nth-of-type(" + d.row + ") line").classed("selected", true);
-
-    })
-    .on("mouseout", function(){
-      d3.selectAll("rect").classed("selected", false);
-      d3.select(".tip").style("display", "none");
-      d3.selectAll(".axis .tick text").classed("selected", false);
-      d3.selectAll(".axis .tick line").classed("selected", false);
-      
-
-    });
-    d3.selectAll(".axis .tick text").style("fill", "white");
-  }
-</script>
+        }
+        setInterval(main, 600000)
 
 
-<script>
-  // for electron
-  if (typeof require !== 'undefined') {
-      const currentWebContents = require('electron').remote.getCurrentWebContents();
-      document.addEventListener('keyup', ({ key, ctrlKey, shiftKey, metaKey, altKey }) => {
-          if (
-              key === 'F12' ||
-              (ctrlKey && shiftKey && key === 'I') ||
-              (metaKey && altKey && key === 'i')
-          ) {
-              currentWebContents.openDevTools();
-          }
-      });
-  }
-</script>
+        function pairwise(list) {
+            if (list.length < 2) {
+                return [];
+            }
+            var first = list[0],
+                rest = list.slice(1),
+                pairs = rest.map(function(x) {
+                    return [first, x];
+                });
+            return pairs.concat(pairwise(rest));
+        }
+        var correlationData = []
+
+        function draw(candles) {
+            var data = [];
+            var cols = Object.keys(candles)
+            for (var i = 0; i < candles["BTC"].length; i++) {
+                var obj = {
+                    index: i
+                };
+                cols.forEach(col => {
+                    obj[col] = candles[col][i];
+                });
+                data.push(obj);
+
+            }
+            //console.log(data)
+            var corr = jz.arr.correlationMatrix(data, cols);
+            var extent = d3.extent(corr.map(function(d) {
+                return d.correlation;
+            }).filter(function(d) {
+                return d !== 1;
+            }));
+
+            var grid = data2grid.grid(corr);
+            var rows = d3.max(grid, function(d) {
+                return d.row;
+            });
+
+            var margin = {
+                top: 35,
+                bottom: 5,
+                left: 55,
+                right: 1
+            };
+
+            var dim = 485;
+
+            var width = dim,
+                height = dim;
+
+            var svg = d3.select("#grid").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + ", " + margin.top + ")")
+
+            var padding = .1;
+
+            var x = d3.scaleBand()
+                .range([0, width])
+                .paddingInner(padding)
+                .domain(d3.range(1, rows + 1))
+
+
+            var y = d3.scaleBand()
+                .range([0, height])
+                .paddingInner(padding)
+                .domain(d3.range(1, rows + 1))
+
+
+            var c = chroma.scale(["tomato", "white", "steelblue"])
+                .domain([extent[0], 0, extent[1]]);
+
+            var x_axis = d3.axisTop(y).tickFormat(function(d, i) {
+                return cols[i];
+            });
+
+            var y_axis = d3.axisLeft(x).tickFormat(function(d, i) {
+                return cols[i];
+            });
+
+            svg.append("g")
+                .attr("transform", "translate(-15,-20)")
+                .attr("class", "x axis")
+                .call(x_axis)
+                .selectAll("text")
+                .attr("transform", "rotate(90)");
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(y_axis)
+
+
+            svg.selectAll("rect")
+                .data(grid, function(d) {
+                    return d.column_a + d.column_b;
+                })
+                .enter().append("rect")
+                .attr("x", function(d) {
+                    return x(d.column);
+                })
+                .attr("y", function(d) {
+                    return y(d.row);
+                })
+                .attr("width", x.bandwidth())
+                .attr("height", y.bandwidth())
+                .style("fill", function(d) {
+                    return c(d.correlation);
+                })
+                .style("opacity", 1e-6)
+                .transition()
+                .style("opacity", 1);
+
+            svg.selectAll("rect")
+
+            d3.selectAll("rect")
+                .on("mouseover", function(d) {
+
+                    d3.select(this).classed("selected", true);
+
+                    d3.select(".tip")
+                        .style("display", "block")
+                        .html(d.column_x + ", " + d.column_y + ": " + d.correlation.toFixed(2));
+
+                    var row_pos = y(d.row);
+                    var col_pos = x(d.column);
+                    var tip_pos = d3.select(".tip").node().getBoundingClientRect();
+                    var tip_width = tip_pos.width;
+                    var tip_height = tip_pos.height;
+                    var grid_pos = d3.select("#grid").node().getBoundingClientRect();
+                    var grid_left = grid_pos.left;
+                    var grid_top = grid_pos.top;
+
+                    var left = grid_left + col_pos + margin.left + (x.bandwidth() / 2) - (tip_width / 2);
+                    var top = grid_top + row_pos + margin.top - tip_height - 5;
+
+                    d3.select(".tip")
+                        .style("left", left + "px")
+                        .style("top", top + "px");
+
+                    d3.select(".x.axis .tick:nth-of-type(" + d.column + ") text").classed("selected", true);
+                    d3.select(".y.axis .tick:nth-of-type(" + d.row + ") text").classed("selected", true);
+                    d3.select(".x.axis .tick:nth-of-type(" + d.column + ") line").classed("selected", true);
+                    d3.select(".y.axis .tick:nth-of-type(" + d.row + ") line").classed("selected", true);
+
+                })
+                .on("mouseout", function() {
+                    d3.selectAll("rect").classed("selected", false);
+                    d3.select(".tip").style("display", "none");
+                    d3.selectAll(".axis .tick text").classed("selected", false);
+                    d3.selectAll(".axis .tick line").classed("selected", false);
+
+
+                });
+            d3.selectAll(".axis .tick text").style("fill", "white");
+        }
+    </script>
+
+
+    <script>
+        // for electron
+        if (typeof require !== 'undefined') {
+            const currentWebContents = require('electron').remote.getCurrentWebContents();
+            document.addEventListener('keyup', ({
+                key,
+                ctrlKey,
+                shiftKey,
+                metaKey,
+                altKey
+            }) => {
+                if (
+                    key === 'F12' ||
+                    (ctrlKey && shiftKey && key === 'I') ||
+                    (metaKey && altKey && key === 'i')
+                ) {
+                    currentWebContents.openDevTools();
+                }
+            });
+        }
+    </script>
 
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-

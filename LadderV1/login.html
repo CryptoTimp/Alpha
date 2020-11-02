@@ -1,0 +1,23 @@
+<form id="form" onsubmit="return false;">
+    <p>KEY</p>
+    <input type="text" id="Key" name="KEY" value="" />
+    <p>SECRET</p>
+    <input type="text" id="Secret" name="SECRET" value="" />
+    <br>
+    <input type="submit" onclick="othername();" />
+</form>
+
+<script>
+    function othername() {
+        var key = document.getElementById("Key").value;
+        var APIKEY = key
+        localStorage.APIKEYSTORAGE = APIKEY;
+
+        var secret = document.getElementById("Secret").value;
+        var APISECRET = secret
+        localStorage.APISECRETSTORAGE = APISECRET;
+
+        alert("Credentials Loaded");
+        window.open("BTC-USDT.html")
+    }
+</script>

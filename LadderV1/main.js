@@ -163,7 +163,7 @@ function createWindow() {
         mainWindow.show();
     });
     // and load the index.html of the app.
-    mainWindow.loadFile('BTC-USDT.html')
+    mainWindow.loadFile('login.html')
         // Open the DevTools.
         //mainWindow.webContents.openDevTools()
 
